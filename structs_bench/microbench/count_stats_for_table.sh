@@ -7,7 +7,7 @@ make all
 # ./bin/ubench_ideal_skiplist_locks.alloc_new.reclaim_none.pool_none.out prefill 100000 secs 10 x 100 y 100 ideal ideal > results2/ideal100_100
 
 seconds=(10) 
-cops=(1)
+cops=(1 2 5 10 30 100)
 prefill=100000
 yx=(1 5 10)
 thr=(1)

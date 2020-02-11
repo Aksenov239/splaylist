@@ -52,7 +52,11 @@ class CBTree {
             return node->value;
 		return this->no_value;
 	}
+	long long getLength() {
+        return length;
+    }
 	private:
+    long long length;
     typedef CBTreeNode<skey_t, sval_t> NodeType;
     typedef NodeType* NodeTypePtr;
     const skey_t max_key;
@@ -89,6 +93,7 @@ class CBTree {
         NodeTypePtr y = get_child(z, key, first_move_left);
         NodeTypePtr z_par = nullptr;
         while (z != nullptr) {
+            length++;
             if (y == nullptr)
             {
                 z->w++;

@@ -37,7 +37,7 @@ long long sum_lengths, sum_ops;
 vector<int> important, rest;
 
 class MyPaddedRandom {
-    volatile char pad0[PADDING_SIZE - sizeof(unsigned int)];
+    volatile char pad0[128 - sizeof(unsigned int)];
     unsigned int seed;
 public:
     void setSeed(unsigned int _seed) {
@@ -82,7 +82,6 @@ void task(int tid) {
         }
     }
     len[tid] += database->getPathsLength(tid);
-    //__sync_fetch_and_add(&sum_lengths, database->getPathsLength(tid));
 }
 
 bool ideal = false;
@@ -168,6 +167,6 @@ int main(int argc, char **argv) {
     std::cout << "upd ops: " << cops << "\n";
     std::cout << "ideal: " << ideal << "\n";
     std::cout << "results:\n";
-    std::cout << "h: " << (database->getHeight()) << ", ops: " << sum_ops << ", sumLengths: " << double(sum_lengths) / double(sum_ops) << "\n\n";
+    std::cout << "h: " << 0 /*(database->getHeight())*/ << ", ops: " << sum_ops << ", sumLengths: " << double(sum_lengths) / double(sum_ops) << "\n\n";
 }
 

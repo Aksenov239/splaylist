@@ -4,12 +4,14 @@
 #include <iostream>
 #include <sstream>
 #include "cbtree_impl.h"
+#include "record_manager.h"
 #include "common/errors.h"
 #include "common/random_fnv1a.h"
 
+#define RECORD_MANAGER_T record_manager<Reclaim, Alloc, Pool, Node<K, V>>
 #define DATA_STRUCTURE_T CBTree< K, V >
 
-template <typename K, typename V, class Reclaim = K, class Alloc = K, class Pool = K>
+template <typename K, typename V, class Reclaim = reclaimer_debra<K>, class Alloc = allocator_new<K>, class Pool = pool_none<K>>
 class ds_adapter {
 private:
     const V NO_VALUE;
@@ -39,8 +41,17 @@ public:
     }
 
     bool contains(const int tid, const K& key) {
-        return tree->find(tid, key) != getNoValue();
+        return tree->find(key) != getNoValue();
     }
+
+    void setCops(const int tid, int cops) {
+    }
+
+    long long getPathsLength(const int tid) {
+        return tree->getLength();
+    }
+
+
     V insert(const int tid, const K& key, const V& val) {
         setbench_error("insert-replace not implemented for this data structure");
     }
