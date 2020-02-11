@@ -1,0 +1,11 @@
+parameters:
+threads: 70
+x: 95
+y: 5
+prefill: 100000
+secs: 10
+upd ops: 7000
+ideal: 0
+results:
+h: 15, ops: 1708308702, sumLengths: 30.84125429
+

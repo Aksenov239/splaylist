@@ -1,0 +1,783 @@
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2018.10.18)  8 FEB 2020 19:48
+entering extended mode
+ restricted \write18 enabled.
+ %&-line parsing enabled.
+**stats_tables.tex
+(./stats_tables.tex
+LaTeX2e <2017-04-15>
+Babel <3.18> and hyphenation patterns for 84 language(s) loaded.
+
+! LaTeX Error: Missing \begin{document}.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1 \begin{tabular}
+                   {|c|c|c|c|c|c|}
+? 
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <7> on input line 1.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <5> on input line 1.
+Missing character: There is no 9 in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no / in font nullfont!
+Missing character: There is no 1 in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no b in font nullfont!
+Missing character: There is no a in font nullfont!
+Missing character: There is no s in font nullfont!
+Missing character: There is no e in font nullfont!
+! Missing $ inserted.
+<inserted text> 
+                $
+l.2 90/10 & base_
+                 ideal & base_real & upd_opt=1 & upd_opt=2 & upd_opt=10 & up...
+
+? 
+! Extra }, or forgotten $.
+<template> \unskip \hfil }
+                          \hskip \tabcolsep \hskip -.5\arrayrulewidth \vrule...
+l.2 90/10 & base_ideal &
+                         base_real & upd_opt=1 & upd_opt=2 & upd_opt=10 & up...
+
+? 
+! Missing $ inserted.
+<inserted text> 
+                $
+l.2 90/10 & base_ideal &
+                         base_real & upd_opt=1 & upd_opt=2 & upd_opt=10 & up...
+
+? 
+! Missing } inserted.
+<inserted text> 
+                }
+l.2 90/10 & base_ideal &
+                         base_real & upd_opt=1 & upd_opt=2 & upd_opt=10 & up...
+
+? 
+Missing character: There is no b in font nullfont!
+Missing character: There is no a in font nullfont!
+Missing character: There is no s in font nullfont!
+Missing character: There is no e in font nullfont!
+! Missing $ inserted.
+<inserted text> 
+                $
+l.2 90/10 & base_ideal & base_
+                              real & upd_opt=1 & upd_opt=2 & upd_opt=10 & up...
+
+? 
+! Extra }, or forgotten $.
+<template> \unskip \hfil }
+                          \hskip \tabcolsep \hskip -.5\arrayrulewidth \vrule...
+l.2 90/10 & base_ideal & base_real &
+                                     upd_opt=1 & upd_opt=2 & upd_opt=10 & up...
+
+? 
+! Missing $ inserted.
+<inserted text> 
+                $
+l.2 90/10 & base_ideal & base_real &
+                                     upd_opt=1 & upd_opt=2 & upd_opt=10 & up...
+
+? 
+! Missing } inserted.
+<inserted text> 
+                }
+l.2 90/10 & base_ideal & base_real &
+                                     upd_opt=1 & upd_opt=2 & upd_opt=10 & up...
+
+? 
+Missing character: There is no u in font nullfont!
+Missing character: There is no p in font nullfont!
+Missing character: There is no d in font nullfont!
+! Missing $ inserted.
+<inserted text> 
+                $
+l.2 90/10 & base_ideal & base_real & upd_
+                                         opt=1 & upd_opt=2 & upd_opt=10 & up...
+
+? 
+! Extra }, or forgotten $.
+<template> \unskip \hfil }
+                          \hskip \tabcolsep \hskip -.5\arrayrulewidth \vrule...
+l.2 90/10 & base_ideal & base_real & upd_opt=1 &
+                                                 upd_opt=2 & upd_opt=10 & up...
+
+? 
+! Missing $ inserted.
+<inserted text> 
+                $
+l.2 90/10 & base_ideal & base_real & upd_opt=1 &
+                                                 upd_opt=2 & upd_opt=10 & up...
+
+? 
+! Missing } inserted.
+<inserted text> 
+                }
+l.2 90/10 & base_ideal & base_real & upd_opt=1 &
+                                                 upd_opt=2 & upd_opt=10 & up...
+
+? 
+Missing character: There is no u in font nullfont!
+Missing character: There is no p in font nullfont!
+Missing character: There is no d in font nullfont!
+! Missing $ inserted.
+<inserted text> 
+                $
+l.2 ...& base_ideal & base_real & upd_opt=1 & upd_
+                                                  opt=2 & upd_opt=10 & upd_o...
+
+? 
+! Extra }, or forgotten $.
+<template> \unskip \hfil }
+                          \hskip \tabcolsep \hskip -.5\arrayrulewidth \vrule...
+l.2 ...ideal & base_real & upd_opt=1 & upd_opt=2 &
+                                                   upd_opt=10 & upd_opt=100\...
+
+? 
+! Missing $ inserted.
+<inserted text> 
+                $
+l.2 ...ideal & base_real & upd_opt=1 & upd_opt=2 &
+                                                   upd_opt=10 & upd_opt=100\...
+
+? 
+! Missing } inserted.
+<inserted text> 
+                }
+l.2 ...ideal & base_real & upd_opt=1 & upd_opt=2 &
+                                                   upd_opt=10 & upd_opt=100\...
+
+? 
+Missing character: There is no u in font nullfont!
+Missing character: There is no p in font nullfont!
+Missing character: There is no d in font nullfont!
+! Missing $ inserted.
+<inserted text> 
+                $
+l.2 ... & base_real & upd_opt=1 & upd_opt=2 & upd_
+                                                  opt=10 & upd_opt=100\\\hline
+? 
+! Extra }, or forgotten $.
+<template> \unskip \hfil }
+                          \hskip \tabcolsep \hskip -.5\arrayrulewidth \vrule...
+l.2 ...real & upd_opt=1 & upd_opt=2 & upd_opt=10 &
+                                                   upd_opt=100\\\hline
+? 
+! Missing $ inserted.
+<inserted text> 
+                $
+l.2 ...real & upd_opt=1 & upd_opt=2 & upd_opt=10 &
+                                                   upd_opt=100\\\hline
+? 
+! Missing } inserted.
+<inserted text> 
+                }
+l.2 ...real & upd_opt=1 & upd_opt=2 & upd_opt=10 &
+                                                   upd_opt=100\\\hline
+? 
+! Extra alignment tab has been changed to \cr.
+<recently read> \endtemplate 
+                             
+l.2 ...real & upd_opt=1 & upd_opt=2 & upd_opt=10 &
+                                                   upd_opt=100\\\hline
+? 
+Missing character: There is no u in font nullfont!
+Missing character: There is no p in font nullfont!
+Missing character: There is no d in font nullfont!
+! Missing $ inserted.
+<inserted text> 
+                $
+l.2 ...& upd_opt=1 & upd_opt=2 & upd_opt=10 & upd_
+                                                  opt=100\\\hline
+? 
+! Extra }, or forgotten $.
+<template> \unskip \hfil }
+                          \hskip \tabcolsep \hskip -.5\arrayrulewidth \vrule...
+l.2 ...pd_opt=2 & upd_opt=10 & upd_opt=100\\\hline
+                                                  
+? 
+! Interruption.
+<to be read again> 
+                   \hskip 
+l.2 ...pd_opt=2 & upd_opt=10 & upd_opt=100\\\hline
+                                                  
+? 
+! Missing $ inserted.
+<inserted text> 
+                $
+l.2 ...pd_opt=2 & upd_opt=10 & upd_opt=100\\\hline
+                                                  
+? 
+! Missing } inserted.
+<inserted text> 
+                }
+l.2 ...pd_opt=2 & upd_opt=10 & upd_opt=100\\\hline
+                                                  
+? 
+Missing character: There is no o in font nullfont!
+Missing character: There is no p in font nullfont!
+Missing character: There is no s in font nullfont!
+Missing character: There is no / in font nullfont!
+Missing character: There is no s in font nullfont!
+Missing character: There is no e in font nullfont!
+Missing character: There is no c in font nullfont!
+Missing character: There is no s in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no . in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no . in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no . in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no . in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no . in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no 0 in font nullfont!
+! Extra alignment tab has been changed to \cr.
+<recently read> \endtemplate 
+                             
+l.3 ops/secs & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 &
+                                                  0.00\\\hline
+? 
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no . in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no a in font nullfont!
+Missing character: There is no v in font nullfont!
+Missing character: There is no g in font nullfont!
+Missing character: There is no L in font nullfont!
+Missing character: There is no e in font nullfont!
+Missing character: There is no n in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no . in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no . in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no . in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no . in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no . in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no 0 in font nullfont!
+! Extra alignment tab has been changed to \cr.
+<recently read> \endtemplate 
+                             
+l.4 avgLen & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 &
+                                                0.00\\\hline
+? 
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no . in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no 9 in font nullfont!
+Missing character: There is no 9 in font nullfont!
+Missing character: There is no / in font nullfont!
+Missing character: There is no 1 in font nullfont!
+Missing character: There is no b in font nullfont!
+Missing character: There is no a in font nullfont!
+Missing character: There is no s in font nullfont!
+Missing character: There is no e in font nullfont!
+! Missing $ inserted.
+<inserted text> 
+                $
+l.7 99/1 & base_
+                ideal & base_real & upd_opt=1 & upd_opt=2 & upd_opt=10 & upd...
+
+? 
+! Extra }, or forgotten $.
+<template> \unskip \hfil }
+                          \hskip \tabcolsep \hskip -.5\arrayrulewidth \vrule...
+l.7 99/1 & base_ideal &
+                        base_real & upd_opt=1 & upd_opt=2 & upd_opt=10 & upd...
+
+? 
+! Missing $ inserted.
+<inserted text> 
+                $
+l.7 99/1 & base_ideal &
+                        base_real & upd_opt=1 & upd_opt=2 & upd_opt=10 & upd...
+
+? 
+! Missing } inserted.
+<inserted text> 
+                }
+l.7 99/1 & base_ideal &
+                        base_real & upd_opt=1 & upd_opt=2 & upd_opt=10 & upd...
+
+? 
+Missing character: There is no b in font nullfont!
+Missing character: There is no a in font nullfont!
+Missing character: There is no s in font nullfont!
+Missing character: There is no e in font nullfont!
+! Missing $ inserted.
+<inserted text> 
+                $
+l.7 99/1 & base_ideal & base_
+                             real & upd_opt=1 & upd_opt=2 & upd_opt=10 & upd...
+
+? 
+! Extra }, or forgotten $.
+<template> \unskip \hfil }
+                          \hskip \tabcolsep \hskip -.5\arrayrulewidth \vrule...
+l.7 99/1 & base_ideal & base_real &
+                                    upd_opt=1 & upd_opt=2 & upd_opt=10 & upd...
+
+? 
+! Missing $ inserted.
+<inserted text> 
+                $
+l.7 99/1 & base_ideal & base_real &
+                                    upd_opt=1 & upd_opt=2 & upd_opt=10 & upd...
+
+? 
+! Missing } inserted.
+<inserted text> 
+                }
+l.7 99/1 & base_ideal & base_real &
+                                    upd_opt=1 & upd_opt=2 & upd_opt=10 & upd...
+
+? 
+Missing character: There is no u in font nullfont!
+Missing character: There is no p in font nullfont!
+Missing character: There is no d in font nullfont!
+! Missing $ inserted.
+<inserted text> 
+                $
+l.7 99/1 & base_ideal & base_real & upd_
+                                        opt=1 & upd_opt=2 & upd_opt=10 & upd...
+
+? 
+! Extra }, or forgotten $.
+<template> \unskip \hfil }
+                          \hskip \tabcolsep \hskip -.5\arrayrulewidth \vrule...
+l.7 99/1 & base_ideal & base_real & upd_opt=1 &
+                                                upd_opt=2 & upd_opt=10 & upd...
+
+? 
+! Missing $ inserted.
+<inserted text> 
+                $
+l.7 99/1 & base_ideal & base_real & upd_opt=1 &
+                                                upd_opt=2 & upd_opt=10 & upd...
+
+? 
+! Missing } inserted.
+<inserted text> 
+                }
+l.7 99/1 & base_ideal & base_real & upd_opt=1 &
+                                                upd_opt=2 & upd_opt=10 & upd...
+
+? 
+Missing character: There is no u in font nullfont!
+Missing character: There is no p in font nullfont!
+Missing character: There is no d in font nullfont!
+! Missing $ inserted.
+<inserted text> 
+                $
+l.7 ...& base_ideal & base_real & upd_opt=1 & upd_
+                                                  opt=2 & upd_opt=10 & upd_o...
+
+? 
+! Extra }, or forgotten $.
+<template> \unskip \hfil }
+                          \hskip \tabcolsep \hskip -.5\arrayrulewidth \vrule...
+l.7 ...ideal & base_real & upd_opt=1 & upd_opt=2 &
+                                                   upd_opt=10 & upd_opt=100\...
+
+? 
+! Missing $ inserted.
+<inserted text> 
+                $
+l.7 ...ideal & base_real & upd_opt=1 & upd_opt=2 &
+                                                   upd_opt=10 & upd_opt=100\...
+
+? 
+! Missing } inserted.
+<inserted text> 
+                }
+l.7 ...ideal & base_real & upd_opt=1 & upd_opt=2 &
+                                                   upd_opt=10 & upd_opt=100\...
+
+? 
+Missing character: There is no u in font nullfont!
+Missing character: There is no p in font nullfont!
+Missing character: There is no d in font nullfont!
+! Missing $ inserted.
+<inserted text> 
+                $
+l.7 ... & base_real & upd_opt=1 & upd_opt=2 & upd_
+                                                  opt=10 & upd_opt=100\\\hline
+? 
+! Extra }, or forgotten $.
+<template> \unskip \hfil }
+                          \hskip \tabcolsep \hskip -.5\arrayrulewidth \vrule...
+l.7 ...real & upd_opt=1 & upd_opt=2 & upd_opt=10 &
+                                                   upd_opt=100\\\hline
+? 
+! Missing $ inserted.
+<inserted text> 
+                $
+l.7 ...real & upd_opt=1 & upd_opt=2 & upd_opt=10 &
+                                                   upd_opt=100\\\hline
+? 
+! Missing } inserted.
+<inserted text> 
+                }
+l.7 ...real & upd_opt=1 & upd_opt=2 & upd_opt=10 &
+                                                   upd_opt=100\\\hline
+? 
+! Extra alignment tab has been changed to \cr.
+<recently read> \endtemplate 
+                             
+l.7 ...real & upd_opt=1 & upd_opt=2 & upd_opt=10 &
+                                                   upd_opt=100\\\hline
+? 
+Missing character: There is no u in font nullfont!
+Missing character: There is no p in font nullfont!
+Missing character: There is no d in font nullfont!
+! Missing $ inserted.
+<inserted text> 
+                $
+l.7 ...& upd_opt=1 & upd_opt=2 & upd_opt=10 & upd_
+                                                  opt=100\\\hline
+? 
+! Extra }, or forgotten $.
+<template> \unskip \hfil }
+                          \hskip \tabcolsep \hskip -.5\arrayrulewidth \vrule...
+l.7 ...pd_opt=2 & upd_opt=10 & upd_opt=100\\\hline
+                                                  
+? 
+! Missing $ inserted.
+<inserted text> 
+                $
+l.7 ...pd_opt=2 & upd_opt=10 & upd_opt=100\\\hline
+                                                  
+? 
+! Missing } inserted.
+<inserted text> 
+                }
+l.7 ...pd_opt=2 & upd_opt=10 & upd_opt=100\\\hline
+                                                  
+? 
+Missing character: There is no o in font nullfont!
+Missing character: There is no p in font nullfont!
+Missing character: There is no s in font nullfont!
+Missing character: There is no / in font nullfont!
+Missing character: There is no s in font nullfont!
+Missing character: There is no e in font nullfont!
+Missing character: There is no c in font nullfont!
+Missing character: There is no s in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no . in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no . in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no . in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no . in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no . in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no 0 in font nullfont!
+! Extra alignment tab has been changed to \cr.
+<recently read> \endtemplate 
+                             
+l.8 ops/secs & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 &
+                                                  0.00\\\hline
+? 
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no . in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no a in font nullfont!
+Missing character: There is no v in font nullfont!
+Missing character: There is no g in font nullfont!
+Missing character: There is no L in font nullfont!
+Missing character: There is no e in font nullfont!
+Missing character: There is no n in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no . in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no . in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no . in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no . in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no . in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no 0 in font nullfont!
+! Extra alignment tab has been changed to \cr.
+<recently read> \endtemplate 
+                             
+l.9 avgLen & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 &
+                                                0.00\\\hline
+? 
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no . in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no 9 in font nullfont!
+Missing character: There is no 5 in font nullfont!
+Missing character: There is no / in font nullfont!
+Missing character: There is no 5 in font nullfont!
+Missing character: There is no b in font nullfont!
+Missing character: There is no a in font nullfont!
+Missing character: There is no s in font nullfont!
+Missing character: There is no e in font nullfont!
+! Missing $ inserted.
+<inserted text> 
+                $
+l.12 95/5 & base_
+                 ideal & base_real & upd_opt=1 & upd_opt=2 & upd_opt=10 & up...
+
+? 
+! Extra }, or forgotten $.
+<template> \unskip \hfil }
+                          \hskip \tabcolsep \hskip -.5\arrayrulewidth \vrule...
+l.12 95/5 & base_ideal &
+                         base_real & upd_opt=1 & upd_opt=2 & upd_opt=10 & up...
+
+? 
+! Missing $ inserted.
+<inserted text> 
+                $
+l.12 95/5 & base_ideal &
+                         base_real & upd_opt=1 & upd_opt=2 & upd_opt=10 & up...
+
+? 
+! Missing } inserted.
+<inserted text> 
+                }
+l.12 95/5 & base_ideal &
+                         base_real & upd_opt=1 & upd_opt=2 & upd_opt=10 & up...
+
+? 
+Missing character: There is no b in font nullfont!
+Missing character: There is no a in font nullfont!
+Missing character: There is no s in font nullfont!
+Missing character: There is no e in font nullfont!
+! Missing $ inserted.
+<inserted text> 
+                $
+l.12 95/5 & base_ideal & base_
+                              real & upd_opt=1 & upd_opt=2 & upd_opt=10 & up...
+
+? 
+! Extra }, or forgotten $.
+<template> \unskip \hfil }
+                          \hskip \tabcolsep \hskip -.5\arrayrulewidth \vrule...
+l.12 95/5 & base_ideal & base_real &
+                                     upd_opt=1 & upd_opt=2 & upd_opt=10 & up...
+
+? 
+! Missing $ inserted.
+<inserted text> 
+                $
+l.12 95/5 & base_ideal & base_real &
+                                     upd_opt=1 & upd_opt=2 & upd_opt=10 & up...
+
+? 
+! Missing } inserted.
+<inserted text> 
+                }
+l.12 95/5 & base_ideal & base_real &
+                                     upd_opt=1 & upd_opt=2 & upd_opt=10 & up...
+
+? 
+Missing character: There is no u in font nullfont!
+Missing character: There is no p in font nullfont!
+Missing character: There is no d in font nullfont!
+! Missing $ inserted.
+<inserted text> 
+                $
+l.12 95/5 & base_ideal & base_real & upd_
+                                         opt=1 & upd_opt=2 & upd_opt=10 & up...
+
+? 
+! Extra }, or forgotten $.
+<template> \unskip \hfil }
+                          \hskip \tabcolsep \hskip -.5\arrayrulewidth \vrule...
+l.12 95/5 & base_ideal & base_real & upd_opt=1 &
+                                                 upd_opt=2 & upd_opt=10 & up...
+
+? 
+! Missing $ inserted.
+<inserted text> 
+                $
+l.12 95/5 & base_ideal & base_real & upd_opt=1 &
+                                                 upd_opt=2 & upd_opt=10 & up...
+
+? 
+! Missing } inserted.
+<inserted text> 
+                }
+l.12 95/5 & base_ideal & base_real & upd_opt=1 &
+                                                 upd_opt=2 & upd_opt=10 & up...
+
+? 
+Missing character: There is no u in font nullfont!
+Missing character: There is no p in font nullfont!
+Missing character: There is no d in font nullfont!
+! Missing $ inserted.
+<inserted text> 
+                $
+l.12 ... base_ideal & base_real & upd_opt=1 & upd_
+                                                  opt=2 & upd_opt=10 & upd_o...
+
+? 
+! Extra }, or forgotten $.
+<template> \unskip \hfil }
+                          \hskip \tabcolsep \hskip -.5\arrayrulewidth \vrule...
+l.12 ...deal & base_real & upd_opt=1 & upd_opt=2 &
+                                                   upd_opt=10 & upd_opt=100\...
+
+? 
+! Missing $ inserted.
+<inserted text> 
+                $
+l.12 ...deal & base_real & upd_opt=1 & upd_opt=2 &
+                                                   upd_opt=10 & upd_opt=100\...
+
+? 
+! Missing } inserted.
+<inserted text> 
+                }
+l.12 ...deal & base_real & upd_opt=1 & upd_opt=2 &
+                                                   upd_opt=10 & upd_opt=100\...
+
+? 
+Missing character: There is no u in font nullfont!
+Missing character: There is no p in font nullfont!
+Missing character: There is no d in font nullfont!
+! Missing $ inserted.
+<inserted text> 
+                $
+l.12 ...& base_real & upd_opt=1 & upd_opt=2 & upd_
+                                                  opt=10 & upd_opt=100\\\hline
+? 
+! Extra }, or forgotten $.
+<template> \unskip \hfil }
+                          \hskip \tabcolsep \hskip -.5\arrayrulewidth \vrule...
+l.12 ...eal & upd_opt=1 & upd_opt=2 & upd_opt=10 &
+                                                   upd_opt=100\\\hline
+? 
+! Missing $ inserted.
+<inserted text> 
+                $
+l.12 ...eal & upd_opt=1 & upd_opt=2 & upd_opt=10 &
+                                                   upd_opt=100\\\hline
+? 
+! Missing } inserted.
+<inserted text> 
+                }
+l.12 ...eal & upd_opt=1 & upd_opt=2 & upd_opt=10 &
+                                                   upd_opt=100\\\hline
+? 
+! Extra alignment tab has been changed to \cr.
+<recently read> \endtemplate 
+                             
+l.12 ...eal & upd_opt=1 & upd_opt=2 & upd_opt=10 &
+                                                   upd_opt=100\\\hline
+? 
+Missing character: There is no u in font nullfont!
+Missing character: There is no p in font nullfont!
+Missing character: There is no d in font nullfont!
+! Missing $ inserted.
+<inserted text> 
+                $
+l.12 ... upd_opt=1 & upd_opt=2 & upd_opt=10 & upd_
+                                                  opt=100\\\hline
+? q
+OK, entering \batchmode...
+! Extra }, or forgotten $.
+<template> \unskip \hfil }
+                          \hskip \tabcolsep \hskip -.5\arrayrulewidth \vrule...
+l.12 ...d_opt=2 & upd_opt=10 & upd_opt=100\\\hline
+                                                  
+I've deleted a group-closing symbol because it seems to be
+spurious, as in `$x}$'. But perhaps the } is legitimate and
+you forgot something else, as in `\hbox{$x}'. In such cases
+the way to recover is to insert both the forgotten and the
+deleted material, e.g., by typing `I$}'.
+
+! Missing $ inserted.
+<inserted text> 
+                $
+l.12 ...d_opt=2 & upd_opt=10 & upd_opt=100\\\hline
+                                                  
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+! Missing } inserted.
+<inserted text> 
+                }
+l.12 ...d_opt=2 & upd_opt=10 & upd_opt=100\\\hline
+                                                  
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+Missing character: There is no o in font nullfont!
+Missing character: There is no p in font nullfont!
+Missing character: There is no s in font nullfont!
+Missing character: There is no / in font nullfont!
+Missing character: There is no s in font nullfont!
+Missing character: There is no e in font nullfont!
+Missing character: There is no c in font nullfont!
+Missing character: There is no s in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no . in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no . in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no . in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no . in font nullfont!
+Missing character: There is no 0 in font nullfon

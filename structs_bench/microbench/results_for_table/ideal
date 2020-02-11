@@ -1,0 +1,33 @@
+parameters:
+threads: 1
+x: 99
+y: 1
+prefill: 100000
+secs: 10
+upd ops: 1
+ideal: 1
+results:
+h: 16, ops: 33188178, sumLengths: 23.16686406
+
+parameters:
+threads: 1
+x: 95
+y: 5
+prefill: 100000
+secs: 10
+upd ops: 1
+ideal: 1
+results:
+h: 16, ops: 27712728, sumLengths: 23.16951864
+
+parameters:
+threads: 1
+x: 90
+y: 10
+prefill: 100000
+secs: 10
+upd ops: 1
+ideal: 1
+results:
+h: 16, ops: 27435586, sumLengths: 23.1462354
+
