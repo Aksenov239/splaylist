@@ -20,7 +20,7 @@ class Stats:
 
 stats = {"90/10" : Stats(), "95/5" : Stats(), "99/1" : Stats()}    
 #loop through all files
-for filename in ["skip", "flex"]:
+for filename in ["skip", "flex", "cbtree"]:
     inp = open("./results_for_table/" + filename, "r")
     # parameters:
     # threads: 1
@@ -98,8 +98,8 @@ for key in stats:
     stats[key].avgLen_updOpt100 /= num_of_runs
     out.write("\\begin{tabular}{|c|c|c|c|c|c|c|c|c|}\n")
     out.write("$"+ key + "$ & $skiplist$ & $cbtree$ & $p=\\frac{1}{1}$ & $p=\\frac{1}{2}$ & $p=\\frac{1}{5}$ & $p=\\frac{1}{10}$ & $p=\\frac{1}{30}$ & $p=\\frac{1}{100}$\\\\\\hline\n")
-    out.write("$ops/secs$ & {:.2f} & {:.2f} & {:.2f} & {:.2f} & {:.2f} & {:.2f} & {:.2f} & {:.2f}\\\\\\hline\n".format(stats[key].ops_real, stats[key].ops_splaytree, stats[key].ops_updOpt1, stats[key].ops_updOpt2, stats[key].ops_updOpt5, stats[key].ops_updOpt10, stats[key].ops_updOpt30, stats[key].ops_updOpt100))
-    out.write("$avgLen$ & {:.2f} & {:.2f} & {:.2f} & {:.2f} & {:.2f} & {:.2f} & {:.2f} & {:.2f}\\\\\\hline\n".format(stats[key].avgLen_real, stats[key].avgLen_splaytree, stats[key].avgLen_updOpt1, stats[key].avgLen_updOpt2, stats[key].avgLen_updOpt5, stats[key].avgLen_updOpt10, stats[key].avgLen_updOpt30, stats[key].avgLen_updOpt100))
+    out.write("$ops/secs$ & {:.2f} & {:.2f} & {:.2f} & {:.2f} & {:.2f} & {:.2f} & {:.2f} & {:.2f}\\\\\\hline\n".format(stats[key].ops_real, stats[key].ops_cbtree, stats[key].ops_updOpt1, stats[key].ops_updOpt2, stats[key].ops_updOpt5, stats[key].ops_updOpt10, stats[key].ops_updOpt30, stats[key].ops_updOpt100))
+    out.write("$avgLen$ & {:.2f} & {:.2f} & {:.2f} & {:.2f} & {:.2f} & {:.2f} & {:.2f} & {:.2f}\\\\\\hline\n".format(stats[key].avgLen_real, stats[key].avgLen_cbtree, stats[key].avgLen_updOpt1, stats[key].avgLen_updOpt2, stats[key].avgLen_updOpt5, stats[key].avgLen_updOpt10, stats[key].avgLen_updOpt30, stats[key].avgLen_updOpt100))
     out.write("\\end{tabular}\n")
     out.write("\\\\\\\\\n")
 out.close()
