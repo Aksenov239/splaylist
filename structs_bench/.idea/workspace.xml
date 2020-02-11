@@ -58,7 +58,7 @@
     <session id="2018108956">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="1" />
+          <entry key="project.closed" value="2" />
           <entry key="project.open.time.1" value="1" />
           <entry key="project.open.time.10" value="1" />
           <entry key="project.opened" value="2" />
@@ -99,7 +99,7 @@
         <entry file="file://$PROJECT_DIR$/microbench/benchmark.cpp">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="650">
-              <caret line="77" column="9" lean-forward="true" selection-start-line="77" selection-start-column="9" selection-end-line="77" selection-end-column="9" />
+              <caret line="77" column="9" selection-start-line="77" selection-start-column="9" selection-end-line="77" selection-end-column="9" />
             </state>
           </provider>
         </entry>
@@ -323,16 +323,15 @@
       <workItem from="1579682634180" duration="29860000" />
       <workItem from="1579853464664" duration="10459000" />
       <workItem from="1581064839362" duration="32249000" />
-      <workItem from="1581330677795" duration="14255000" />
+      <workItem from="1581330677795" duration="14852000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="144037000" />
+    <option name="totallyTimeSpent" value="144634000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="67" y="32" width="1853" height="1048" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2659989" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -454,7 +453,7 @@
     <entry file="file://$PROJECT_DIR$/microbench/benchmark.cpp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="650">
-          <caret line="77" column="9" lean-forward="true" selection-start-line="77" selection-start-column="9" selection-end-line="77" selection-end-column="9" />
+          <caret line="77" column="9" selection-start-line="77" selection-start-column="9" selection-end-line="77" selection-end-column="9" />
         </state>
       </provider>
     </entry>

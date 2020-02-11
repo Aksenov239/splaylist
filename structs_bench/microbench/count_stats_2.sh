@@ -1,5 +1,5 @@
-#rm -r results
-#mkdir results
+rm -r results
+mkdir results
 make all
 # echo "counting block for 100 100"
 # ./bin/ubench_flexlist_locks.alloc_new.reclaim_none.pool_none.out prefill 100000 secs 10 x 100 y 100 > results2/flex100_100
@@ -8,22 +8,24 @@ make all
 
 seconds=(10)
 prefill=100000
-yx=(5)
+yx=(1 5 10)
 thr=(1 2 4 8 10 20 30 40 50 60 70)
 #thr=(1 2)
-
-for y in "${yx[@]}" 
+for((cnt=0;cnt<5;cnt++)) 
 do
-    for threads in "${thr[@]}" 
+    for y in "${yx[@]}" 
     do
-        for s in "${seconds[@]}"
+        for threads in "${thr[@]}" 
         do
-            x=$((100-y))
-            cops=$((100*threads))
-            echo "starting to count x=$x, y=$y, threads=$threads, secs=$s, cops=$cops"
-            ./bin/ubench_skiplist_locks.alloc_new.reclaim_none.pool_none.out prefill $prefill secs $s presecs $s x $x y $y cops $cops threads $threads >> results/skip_x_${x}_y_${y}_threads_${threads}_cops_${cops}_secs_${s}
-            #./bin/ubench_ideal_skiplist_locks.alloc_new.reclaim_none.pool_none.out prefill $prefill secs $s presecs $s x $x y $y cops $cops threads $threads ideal ideal >> results/ideal_x_${x}_y_${y}_threads_${threads}_cops_${cops}_secs_${s}
-            ./bin/ubench_flexlist_locks.alloc_new.reclaim_none.pool_none.out prefill $prefill secs $s presecs $s x $x y $y cops $cops threads $threads >> results/flex_x_${x}_y_${y}_threads_${threads}_cops_${cops}_secs_${s}
-        done        
+            for s in "${seconds[@]}"
+            do
+                x=$((100-y))
+                cops=$((100*threads))
+                echo "starting to count x=$x, y=$y, threads=$threads, secs=$s, cops=$cops"
+                ./bin/ubench_skiplist_locks.alloc_new.reclaim_none.pool_none.out prefill $prefill secs $s presecs $s x $x y $y cops $cops threads $threads >> results/skip_x_${x}_y_${y}_threads_${threads}_cops_${cops}_secs_${s}
+                #./bin/ubench_ideal_skiplist_locks.alloc_new.reclaim_none.pool_none.out prefill $prefill secs $s presecs $s x $x y $y cops $cops threads $threads ideal ideal >> results/ideal_x_${x}_y_${y}_threads_${threads}_cops_${cops}_secs_${s}
+                ./bin/ubench_flexlist_locks.alloc_new.reclaim_none.pool_none.out prefill $prefill secs $s presecs $s x $x y $y cops $cops threads $threads >> results/flex_x_${x}_y_${y}_threads_${threads}_cops_${cops}_secs_${s}
+            done        
+        done
     done
-done
+done    

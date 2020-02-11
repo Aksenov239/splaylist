@@ -11,6 +11,8 @@ class Stats:
     avgLen_ideal = 0.0
     avgLen_flex = 0.0
 
+num_of_runs = 5.0
+
 stats = {"90/10" : {"1" : Stats(), "2" : Stats(), "4" : Stats(), "8" : Stats(), 
                     "10" : Stats(), "20" : Stats(), "30" : Stats(), "40" : Stats(),
                     "50" : Stats(), "60" : Stats(), "70" : Stats()}, 
@@ -58,25 +60,30 @@ for filename in filenames:
             avgLen = float(results[2].split(" ")[1])
             if (filename in ['ideal_{}_{}_secs_10'.format(xy, threads_cops) for xy in xys for threads_cops in thread_part]):
                 #print(ops)
-                stats[x[1] + "/" + y[1]][threads[1]].ops_ideal = ops
-                stats[x[1] + "/" + y[1]][threads[1]].avgLen_ideal = avgLen
+                stats[x[1] + "/" + y[1]][threads[1]].ops_ideal += ops
+                stats[x[1] + "/" + y[1]][threads[1]].avgLen_ideal += avgLen
             if (filename in ['skip_{}_{}_secs_10'.format(xy, threads_cops) for xy in xys for threads_cops in thread_part]):
-                stats[x[1] + "/" + y[1]][threads[1]].ops_real = ops
-                stats[x[1] + "/" + y[1]][threads[1]].avgLen_real = avgLen
+                stats[x[1] + "/" + y[1]][threads[1]].ops_real += ops
+                stats[x[1] + "/" + y[1]][threads[1]].avgLen_real += avgLen
             if (filename in ['flex_{}_{}_secs_10'.format(xy, threads_cops) for xy in xys for threads_cops in thread_part]):
-                stats[x[1] + "/" + y[1]][threads[1]].ops_flex = ops
-                stats[x[1] + "/" + y[1]][threads[1]].avgLen_flex = avgLen
+                stats[x[1] + "/" + y[1]][threads[1]].ops_flex += ops
+                stats[x[1] + "/" + y[1]][threads[1]].avgLen_flex += avgLen
     inp.close()
-
+print("flex 99/1", str(stats["99/1"]["70"].ops_flex / stats["99/1"]["1"].ops_flex))
+print("skip", str(stats["99/1"]["70"].ops_real / stats["99/1"]["1"].ops_real))
+print("flex 95/5", str(stats["95/5"]["70"].ops_flex / stats["95/5"]["1"].ops_flex))
+print("skip", str(stats["95/5"]["70"].ops_real / stats["95/5"]["1"].ops_real))
+print("flex 90/10", str(stats["90/10"]["70"].ops_flex / stats["90/10"]["1"].ops_flex))
+print("skip", str(stats["90/10"]["70"].ops_real / stats["90/10"]["1"].ops_real))
 for name in ["90/10", "95/5", "99/1"]:
     threads = [1, 2, 4, 8, 10, 20, 30, 40, 50, 60, 70]
     yskip = []
     yideal = []
     yflex = []
     for num in ["1", "2", "4", "8", "10", "20", "30", "40", "50", "60", "70"]:
-        print(name, num, str(stats[name][num].ops_real))
-        print(name, num, str(stats[name][num].ops_ideal))
-        print(name, num, str(stats[name][num].ops_flex))
+        stats[name][num].ops_real /= num_of_runs
+        stats[name][num].ops_ideal /= num_of_runs
+        stats[name][num].ops_flex /= num_of_runs
         yskip.append(stats[name][num].ops_real / (1000000.0))
         yideal.append(stats[name][num].ops_ideal / (1000000.0))
         yflex.append(stats[name][num].ops_flex / (1000000.0))

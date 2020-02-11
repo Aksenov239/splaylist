@@ -7,5 +7,49 @@ secs: 10
 upd ops: 2000
 ideal: 0
 results:
-h: 18, ops: 963505979, sumLengths: 17.94132048
+h: 18, ops: 962871733, sumLengths: 17.93875966
+
+parameters:
+threads: 20
+x: 99
+y: 1
+prefill: 100000
+secs: 10
+upd ops: 2000
+ideal: 0
+results:
+h: 18, ops: 1001155589, sumLengths: 17.89293762
+
+parameters:
+threads: 20
+x: 99
+y: 1
+prefill: 100000
+secs: 10
+upd ops: 2000
+ideal: 0
+results:
+h: 18, ops: 971309269, sumLengths: 17.93481691
+
+parameters:
+threads: 20
+x: 99
+y: 1
+prefill: 100000
+secs: 10
+upd ops: 2000
+ideal: 0
+results:
+h: 18, ops: 997016135, sumLengths: 17.90958126
+
+parameters:
+threads: 20
+x: 99
+y: 1
+prefill: 100000
+secs: 10
+upd ops: 2000
+ideal: 0
+results:
+h: 19, ops: 973473607, sumLengths: 17.93465159
 

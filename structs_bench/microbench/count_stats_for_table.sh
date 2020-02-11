@@ -11,22 +11,26 @@ cops=(1)
 prefill=100000
 yx=(1 5 10)
 thr=(1)
-for y in "${yx[@]}" 
+for((cnt=0;cnt<5;cnt++)) 
 do
-    for threads in "${thr[@]}" 
+    for y in "${yx[@]}" 
     do
-        for s in "${seconds[@]}"
+        for threads in "${thr[@]}" 
         do
-            x=$((100-y))
-            echo "starting to count x=$x, y=$y, threads=$threads, secs=$s"
-            ./bin/ubench_skiplist_locks.alloc_new.reclaim_none.pool_none.out prefill $prefill presecs $s secs $s x $x y $y threads $threads >> results_for_table/skip
-            ./bin/ubench_ideal_skiplist_locks.alloc_new.reclaim_none.pool_none.out prefill $prefill presecs $s secs $s x $x y $y threads $threads ideal ideal >> results_for_table/ideal
-            for c in "${cops[@]}" 
+            for s in "${seconds[@]}"
             do
-                
-                echo "starting to count x=$x, y=$y, threads=$threads, secs=$s, cops=$c"
-                ./bin/ubench_flexlist_locks.alloc_new.reclaim_none.pool_none.out prefill $prefill presecs $s secs $s x $x y $y cops $c threads $threads >> results_for_table/flex
-            done
-        done        
+                x=$((100-y))
+                echo "starting to count x=$x, y=$y, threads=$threads, secs=$s"
+                ./bin/ubench_cbtree.alloc_new.reclaim_none.pool_none.out prefill $prefill presecs $s secs $s x $x y $y threads $threads >> results_for_table/cbtree
+                ./bin/ubench_skiplist_locks.alloc_new.reclaim_none.pool_none.out prefill $prefill presecs $s secs $s x $x y $y threads $threads >> results_for_table/skip
+#                ./bin/ubench_ideal_skiplist_locks.alloc_new.reclaim_none.pool_none.out prefill $prefill presecs $s secs $s x $x y $y threads $threads ideal ideal >> results_for_table/ideal
+                for c in "${cops[@]}" 
+                do
+                    
+                    echo "starting to count x=$x, y=$y, threads=$threads, secs=$s, cops=$c"
+                    ./bin/ubench_flexlist_locks.alloc_new.reclaim_none.pool_none.out prefill $prefill presecs $s secs $s x $x y $y cops $c threads $threads >> results_for_table/flex
+                done
+            done        
+        done
     done
-done
+done 
