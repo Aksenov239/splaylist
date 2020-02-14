@@ -3,7 +3,7 @@
 #include <atomic>
 #include <memory>
 #include <sstream>
-
+#include <pthread.h>
 using namespace std;
 
 template <typename K, typename V>
@@ -13,12 +13,12 @@ struct CBTreeNode {
     CBTreeNode* left;
     CBTreeNode* right;
     CBTreeNode* parent;
-    int w;
+    long long w;
     CBTreeNode(K key, V value): key(key), value(value){
         left = right = parent = nullptr;
         w = 0;
     }
-    inline int c() {
+    inline long long c() {
         return w - (left == nullptr ? 0 : left->w) - (right == nullptr ? 0 : right->w);
     }
 };
@@ -29,13 +29,19 @@ class CBTree {
 	public:
     CBTree(skey_t max_key, sval_t no_value): max_key(max_key), no_value(no_value) {
 		root = new NodeType(max_key, no_value);
-        one_plus_eps = 1 + 1.0 / (1 << rotation_eps);
+        eps = 1.0 / (1 << rotation_eps);
+        one_plus_eps = 1 + eps;
+        pthread_rwlock_init(&lock, NULL);
 	}
 	sval_t insertIfAbsent(skey_t key, sval_t val) {
 		NodeTypePtr parent_node;
+        pthread_rwlock_wrlock(&lock);
         NodeTypePtr node = search(key, &parent_node);
         if (node != nullptr)
+        {
+            pthread_rwlock_unlock(&lock);
             return node->value;
+        }
         else {
             node = new NodeType(key, val);
             if (less(key, parent_node))
@@ -43,25 +49,44 @@ class CBTree {
             else
                 parent_node->right = node;
             node->w++;
+            pthread_rwlock_unlock(&lock);
             return this->no_value;
         }
 	}
-	sval_t find(skey_t x) {
-        NodeTypePtr node = search(x, nullptr);
+	sval_t find(int tid, skey_t x) {
+        NodeTypePtr node;
+        if (tid == 1)
+        {
+            pthread_rwlock_wrlock(&lock);
+            node = search(x, nullptr);
+            pthread_rwlock_unlock(&lock);
+        }
+        else
+        {
+            pthread_rwlock_rdlock(&lock);
+            node = search_no_restructure(x);
+            pthread_rwlock_unlock(&lock);
+        }
         if (node != nullptr)
             return node->value;
 		return this->no_value;
 	}
 	long long getLength() {
-        return length;
+		return length;
+	}
+    void stats() {
+        stats(root);
+        cout << " -------- " << endl;
     }
 	private:
-    long long length;
+	long long length;
+    pthread_rwlock_t lock;
     typedef CBTreeNode<skey_t, sval_t> NodeType;
     typedef NodeType* NodeTypePtr;
     const skey_t max_key;
     const sval_t no_value;
     NodeTypePtr root;
+    double eps;
     double one_plus_eps;
     static bool greater(const skey_t& key, const NodeTypePtr node) {
 		return node && Comp()(node->key, key);
@@ -93,7 +118,7 @@ class CBTree {
         NodeTypePtr y = get_child(z, key, first_move_left);
         NodeTypePtr z_par = nullptr;
         while (z != nullptr) {
-            length++;
+			length++;
             if (y == nullptr)
             {
                 z->w++;
@@ -161,6 +186,30 @@ class CBTree {
         assert(false);
 
     }
+    NodeTypePtr search_no_restructure(skey_t key) {
+        NodeTypePtr z = root;
+        bool first_move_left;
+        NodeTypePtr y = get_child(z, key, first_move_left);
+        while (z != nullptr) {
+			length++;
+            if (y == nullptr)
+            {
+                if (equal(key, z))
+                    return z;
+                return y;
+            }
+            bool second_move_left = false;
+            NodeTypePtr x = get_child(y, key, second_move_left);
+            if (x == nullptr) {
+                if (equal(key, y))
+                    return y;
+                return x;
+            }
+            z = x;
+            y = get_child(z, key, first_move_left);
+        }
+        assert(false);
+    }
     inline bool check_single_rotation(NodeTypePtr y, NodeTypePtr z, bool first_move_left) {
         if (z == root)
             return false;
@@ -173,13 +222,13 @@ class CBTree {
         if (z == root)
             return false;
         if (first_move_left)
-            return ((z->w + (x->right == nullptr ? 0: x->right->w)) +
-                (y->w + (x->left == nullptr ? 0: x->left->w))) < (y->w + x->w) * one_plus_eps;
+            return ((z->w - y->w + (x->right == nullptr ? 0: x->right->w)) *
+                (y->w - x->w + (x->left == nullptr ? 0: x->left->w))) < (y->w * x->w) * eps;
         else
-            return ((z->w + (x->left == nullptr ? 0: x->left->w)) +
-                (y->w + (x->right == nullptr ? 0: x->right->w))) < (y->w + x->w) * one_plus_eps;
+            return ((z->w - y->w + (x->left == nullptr ? 0: x->left->w)) *
+                (y->w - x->w + (x->right == nullptr ? 0: x->right->w))) < (y->w * x->w) * eps;
     }
-    inline NodeTypePtr rotate_right(NodeTypePtr x, NodeTypePtr y, NodeTypePtr z) {
+    inline void rotate_right(NodeTypePtr x, NodeTypePtr y, NodeTypePtr z) {
         int y_new_w = y->w - x->w + (x->right == nullptr ? 0 : x->right->w);
         x->w = y->w;
         y->w = y_new_w;
@@ -191,8 +240,10 @@ class CBTree {
             z->right = x;
     }
 
-    inline NodeTypePtr rotate_left(NodeTypePtr x, NodeTypePtr y, NodeTypePtr z) {
+    inline void rotate_left(NodeTypePtr x, NodeTypePtr y, NodeTypePtr z) {
         int y_new_w = y->w - x->w + (x->left == nullptr ? 0 : x->left->w);
+        x->w = y->w;
+        y->w = y_new_w;
         y->right = x->left;
         x->left = y;
         if (z->left == y)
@@ -200,4 +251,21 @@ class CBTree {
         else
             z->right = x;
     }
+    void stats(NodeTypePtr root) {
+        if (!root)
+            return;
+        cout << root->key << " w(" << root->w << ") c(" << root->c() << ") ";
+        if (root->left)
+        {
+            cout << "SR(" << check_single_rotation(root->left, root, true) << ") ";
+            if (root->left->right)
+                cout << "DR(" << check_double_rotation(root->left->right, root->left, root, true) << ") ";
+        }
+        if (root->right)
+            cout << "SL(" << check_single_rotation(root->right, root, false) << ") ";
+        cout << (root->left ? root->left->key : -1) << " " << (root->right ? root->right->key : -1) << endl;
+        stats(root->left);
+        stats(root->right);
+    }
+
 };

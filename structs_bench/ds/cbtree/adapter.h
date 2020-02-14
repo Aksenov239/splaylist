@@ -34,14 +34,12 @@ public:
     }
 
     void initThread(const int tid) {
-        assert(tid == 0);
     }
     void deinitThread(const int tid) {
-        assert(tid == 0);
     }
 
     bool contains(const int tid, const K& key) {
-        return tree->find(key) != getNoValue();
+        return tree->find(tid, key) != getNoValue();
     }
 
     void setCops(const int tid, int cops) {
@@ -51,24 +49,24 @@ public:
         return tree->getLength();
     }
 
-
     V insert(const int tid, const K& key, const V& val) {
         setbench_error("insert-replace not implemented for this data structure");
     }
     V insertIfAbsent(const int tid, const K& key, const V& val) {
+        assert(tid == 0);
         return tree->insertIfAbsent(key, val);
     }
     V erase(const int tid, const K& key) {
         setbench_error("erase not implemented for this data structure");
     }
     V find(const int tid, const K& key) {
-        return tree->find(key);
+        return tree->find(tid, key);
     }
     int rangeQuery(const int tid, const K& lo, const K& hi, K * const resultKeys, V * const resultValues) {
         setbench_error("rangeQuery not implemented for this data structure");
     }
     void printSummary() {
-        //tree->stats();
+        tree->stats();
     }
     bool validateStructure() {
         return true;
