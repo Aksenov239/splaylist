@@ -54,6 +54,7 @@ for filename in filenames:
             stats[x[1] + "/" + y[1]][threads[1]].avgLen[filename] += avgLen
     inp.close()
 
+markers = ['o', 's', '*', 'x', '+', '^', 'D']
 for workload in workloads:
     y = {fname : [] for fname in filenames}
     # y = {"skiplist" : [], "tree" : [], "cbtree_ideal" : [], "flexlist_ideal" : [], "cbtree_100t" : [], "flexlist_100t" : [], "cbtree_10t" : [], "flexlist_10t" : [], "cbtree_1000" : [], "flexlist_1000" : []}
@@ -62,8 +63,8 @@ for workload in workloads:
             stats[workload][num].ops[filename] /= num_of_runs
             y[filename].append(stats[workload][num].ops[filename] / (1000000.0))
     fig, ax = plt.subplots()
-    for filename in filenames :
-        ax.plot(threads, y[filename], label=filename)
+    for plot_id, filename in enumerate(filenames):
+        ax.plot(threads, y[filename], marker=markers[plot_id % len(markers)], label=filename)
     ax.legend()
     cnm = workload.split("/")
     ax.set(xlabel='Number of threads', ylabel=r'$10^6$ operations per second')
