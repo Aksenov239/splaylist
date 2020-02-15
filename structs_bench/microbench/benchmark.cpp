@@ -55,6 +55,7 @@ MyPaddedRandom rnd[STRESS_MAX_THREADS + 1];
 
 
 void task(int tid) {
+//    std::cerr << tid << " on CPU " << sched_getcpu() << std::endl;
     //database->printSummary();
     auto beg = std::chrono::steady_clock::now();
     bool predperiod = true;
@@ -69,16 +70,18 @@ void task(int tid) {
         //database->printSummary();
         database->contains(tid, k);
         //std::cout << (database->getPathsLength(tid)) << " length\n";
-        auto cur = std::chrono::steady_clock::now();
-        std::chrono::duration<double> diff = cur - beg;
-        if (diff.count() > double(presecs) - (1e-9) && predperiod) {
-            predperiod = false;
-            ops[tid] = -i;
-            len[tid] -= database->getPathsLength(tid);
-        }
-        if (diff.count() > double(seconds + presecs) - (1e-9)) {
-            ops[tid] += i;
-            break;
+        if (i % 1000 == 0) {
+          auto cur = std::chrono::steady_clock::now();
+          std::chrono::duration<double> diff = cur - beg;
+          if (diff.count() > double(presecs) - (1e-9) && predperiod) {
+              predperiod = false;
+              ops[tid] = -i;
+              len[tid] -= database->getPathsLength(tid);
+          }
+          if (diff.count() > double(seconds + presecs) - (1e-9)) {
+              ops[tid] += i;
+              break;
+          }
         }
     }
     len[tid] += database->getPathsLength(tid);
@@ -148,6 +151,12 @@ int main(int argc, char **argv) {
 
     for (int i = 0; i < num_threads; i++) {
         a[i] = thread(task, i + 1);
+
+        cpu_set_t cpuset;
+        CPU_ZERO(&cpuset);
+        CPU_SET(i, &cpuset);
+        int rc = pthread_setaffinity_np(a[i].native_handle(),
+                                        sizeof(cpu_set_t), &cpuset);
     }
 
     for (int i = 0; i < num_threads; i++) {
