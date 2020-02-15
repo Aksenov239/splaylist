@@ -57,7 +57,7 @@ for key in stats:
         s += " & $" + filename + "$"
     out.write(s + "\\\\\\hline\n")  
     s = "$ops/secs$"
-    t = "$avgLen"
+    t = "$avgLen$"
     for filename in filenames:
         s += " & {:.2f}".format(stats[key].ops[filename])
         t += " & {:.2f}".format(stats[key].avgLen[filename])
