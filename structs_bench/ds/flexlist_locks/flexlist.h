@@ -17,7 +17,7 @@ struct Node {
     volatile int lock;
     volatile int topLevel;
     volatile int selfhits;
-    Node<K, V>* next[MAX_LEVEL + 1];
+    Node<K, V>* volatile next[MAX_LEVEL + 1];
     volatile int hits[MAX_LEVEL + 1];
 };
 
