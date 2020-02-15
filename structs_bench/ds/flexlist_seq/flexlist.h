@@ -84,7 +84,6 @@ void FlexList<K, V, RecordManager>::updateZeroLevel(Node<K, V> *curr) {
 template <typename K, typename V, class RecordManager>
 void FlexList<K, V, RecordManager>::update(const int tid, K key) {
     accessCounter++;
-    int curAccess = accessCounter;
     head->hits[MAX_LEVEL]++;
     Node<K, V>* pred = head;
     for (int h = MAX_LEVEL - 1; h >= zeroLevel; h--) {
@@ -95,11 +94,10 @@ void FlexList<K, V, RecordManager>::update(const int tid, K key) {
         Node<K, V>* predpred = pred;
         Node<K, V>* cur = pred->next[h];
 
-        if (cur->zeroLevel > h) {
-            while (cur->zeroLevel > h) {
-                updateZeroLevel(cur);
-            }
+        while (cur->zeroLevel > h) {
+            updateZeroLevel(cur);
         }
+
         sum_lengths++;
         if ((cur->key) > key) {
             (pred->hits[h])++;
@@ -107,11 +105,10 @@ void FlexList<K, V, RecordManager>::update(const int tid, K key) {
         }
         bool ok = false;
         while ((cur->key) <= key) {
-            if (cur->zeroLevel > h) {
-                while (cur->zeroLevel > h) {
-                    updateZeroLevel(cur);
-                }
+            while (cur->zeroLevel > h) {
+                updateZeroLevel(cur);
             }
+
             sum_lengths++;
             if((cur->next[h]->key) > key) {
                 if (cur->key == key) {
@@ -147,13 +144,10 @@ void FlexList<K, V, RecordManager>::update(const int tid, K key) {
                 if ((pred->zeroLevel) > h - 1) {
                     updateZeroLevel(pred);
                 }
-                int cur_hits = getHits(cur, h);
-                pred->hits[h] += cur_hits;
+                pred->hits[h] += getHits(cur, h);
                 cur->hits[h] = 0;
                 pred->next[h] = cur->next[h];
                 cur->next[h] = NULL;
-                if (pred != predpred) {
-                }
                 cur->topLevel--;
                 cur = pred->next[h];
                 continue;
@@ -202,10 +196,8 @@ FlexList<K, V, RecordManager>::FlexList(const int numThreads, const V noValue, c
     head->topLevel = MAX_LEVEL;
     tail->topLevel = MAX_LEVEL;
     this->noValue = noValue;
-    for (unsigned int i = 0; i <= numThreads; i++) {
-        sumLengths = 0;
-        update_counter = 0;
-    }
+    sumLengths = 0;
+    update_counter = 0;
     for (int i = zeroLevel; i <= MAX_LEVEL; i++) {
         head->next[i] = tail;
         tail->next[i] = NULL;
@@ -316,31 +308,26 @@ Node<K, V>* FlexList<K, V, RecordManager>::getRoot() {
 
 template <typename K, typename V, class RecordManager>
 bool FlexList<K, V, RecordManager>::find(const int tid, K key, Node<K, V>*& pred, Node<K, V>*& succ) {
-    //std::cout <<"find\n";
     pred = head;
-    succ = (head->next[MAX_LEVEL]);
     for (int level = MAX_LEVEL - 1; level >= zeroLevel; level--) {
         sumLengths++;
-        if (pred->zeroLevel > level) {
-            while ((pred->zeroLevel) > level)
-                updateZeroLevel(pred);
-        }
+
+        while ((pred->zeroLevel) > level)
+            updateZeroLevel(pred);
+
 
         succ = (pred->next[level]);
 
-        if (succ->zeroLevel > level) {
-            while ((succ->zeroLevel) > level)
-                updateZeroLevel(succ);
-        }
+
+        while ((succ->zeroLevel) > level)
+            updateZeroLevel(succ);
 
         while (key > succ->key) {
             sumLengths++;
             pred = succ;
             succ = pred->next[level];
-            if (succ->zeroLevel > level) {
-                while ((succ->zeroLevel) > level)
-                    updateZeroLevel(succ);
-            }
+            while ((succ->zeroLevel) > level)
+                updateZeroLevel(succ);
         }
         if (key == succ->key) {
             return true;
