@@ -72,5 +72,5 @@ for workload in workloads:
     ax.legend()
     cnm = workload.split("/")
     ax.set(xlabel='Number of threads', ylabel=r'$10^6$ operations per second')
-    fig.savefig("./workload" + cnm[0] + "_" + cnm[1] + ".png")
+    fig.savefig("./workload" + cnm[0] + "_" + cnm[1] + ".pdf")
     plt.show()
