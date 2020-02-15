@@ -46,7 +46,7 @@ public:
     }
 
     long long getPathsLength(const int tid) {
-        return tree->getLength();
+        return tree->getLength(tid);
     }
 
     V insert(const int tid, const K& key, const V& val) {
@@ -54,7 +54,7 @@ public:
     }
     V insertIfAbsent(const int tid, const K& key, const V& val) {
         assert(tid == 0);
-        return tree->insertIfAbsent(key, val);
+        return tree->insertIfAbsent(tid, key, val);
     }
     V erase(const int tid, const K& key) {
         setbench_error("erase not implemented for this data structure");

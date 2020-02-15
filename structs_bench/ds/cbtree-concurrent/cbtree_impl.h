@@ -25,6 +25,16 @@ struct CBTreeNode {
     }
 };
 
+const int PADDING_SIZE = 128;
+struct MyLength {
+
+    long long value;
+    volatile char pad[PADDING_SIZE];
+    MyLength() {
+        value = 0;
+    }
+};
+
 template<typename skey_t, typename sval_t, typename Comp = std::less<skey_t>, int rotation_eps=1>
 class CBTree {
 
@@ -36,11 +46,11 @@ class CBTree {
 
         //pthread_rwlock_init(&lock, NULL);
 	}
-	sval_t insertIfAbsent(skey_t key, sval_t val) {
+	sval_t insertIfAbsent(const int tid, skey_t key, sval_t val) {
 		NodeTypePtr parent_node;
         //pthread_rwlock_wrlock(&lock);
         std::unique_lock<std::shared_timed_mutex> lock(mutex_);
-        NodeTypePtr node = search(key, &parent_node);
+        NodeTypePtr node = search(tid, key, &parent_node);
         if (node != nullptr)
         {
             //pthread_rwlock_unlock(&lock);
@@ -57,14 +67,14 @@ class CBTree {
             return this->no_value;
         }
 	}
-	sval_t find(int tid, skey_t x) {
+	sval_t find(const int tid, skey_t x) {
         NodeTypePtr node;
         if (tid == 1)
         {
             //lock.lockW();
             std::unique_lock<std::shared_timed_mutex> lock1(mutex_);
             //pthread_rwlock_wrlock(&lock);
-            node = search(x, nullptr);
+            node = search(tid, x, nullptr);
             //lock.unlockW();
             //pthread_rwlock_unlock(&lock);
         }
@@ -73,7 +83,7 @@ class CBTree {
             std::shared_lock<std::shared_timed_mutex> lock1(mutex_);
             //lock.lockR();
             //pthread_rwlock_rdlock(&lock);
-            node = search_no_restructure(x);
+            node = search_no_restructure(tid, x);
             //lock.unlockR();
             //pthread_rwlock_unlock(&lock);
         }
@@ -81,15 +91,15 @@ class CBTree {
             return node->value;
 		return this->no_value;
 	}
-	long long getLength() {
-		return length;
+	long long getLength(const int tid) {
+		return length[tid].value;
 	}
     void stats() {
         stats(root);
         cout << " -------- " << endl;
     }
 	private:
-	long long length;
+	MyLength length[100];
     std::shared_timed_mutex mutex_;
     //pthread_rwlock_t lock;
     typedef CBTreeNode<skey_t, sval_t> NodeType;
@@ -123,13 +133,13 @@ class CBTree {
         else
             return nullptr;
     }
-	NodeTypePtr search(skey_t key, NodeTypePtr* parent_storage) {
+	NodeTypePtr search(const int tid, skey_t key, NodeTypePtr* parent_storage) {
         NodeTypePtr z = root;
         bool first_move_left = false;
         NodeTypePtr y = get_child(z, key, first_move_left);
         NodeTypePtr z_par = nullptr;
         while (z != nullptr) {
-			length++;
+			length[tid].value++;
             if (y == nullptr)
             {
                 z->w++;
@@ -197,12 +207,12 @@ class CBTree {
         assert(false);
 
     }
-    NodeTypePtr search_no_restructure(skey_t key) {
+    NodeTypePtr search_no_restructure(const int tid, skey_t key) {
         NodeTypePtr z = root;
         bool first_move_left;
         NodeTypePtr y = get_child(z, key, first_move_left);
         while (z != nullptr) {
-			length++;
+			length[tid].value++;
             if (y == nullptr)
             {
                 if (equal(key, z))
