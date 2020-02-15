@@ -3,33 +3,25 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import numpy as np
 
+filenames = ["skiplist", "tree", "cbtree_ideal", "flexlist_ideal", "cbtree_100t", "flexlist_100t", "cbtree_10t", "flexlist_10t", "cbtree_1000", "flexlist_1000"]
+threads = [1, 2, 4, 8, 10, 20, 30, 40, 50, 60, 70]
+string_threads = [str(thr) for thr in threads]
+workloads = ["90/10", "95/5", "99/1"]
+
 class Stats:
-    ops_real = 0.0
-    ops_ideal = 0.0
-    ops_flex = 0.0
-    avgLen_real = 0.0
-    avgLen_ideal = 0.0
-    avgLen_flex = 0.0
+    ops = {filename : 0.0 for filename in filenames}
+    avgLen = {filename : 0.0 for filename in filenames}
 
-num_of_runs = 5.0
+num_of_runs = 1.0
 
-stats = {"90/10" : {"1" : Stats(), "2" : Stats(), "4" : Stats(), "8" : Stats(), 
-                    "10" : Stats(), "20" : Stats(), "30" : Stats(), "40" : Stats(),
-                    "50" : Stats(), "60" : Stats(), "70" : Stats()}, 
-         "99/1" : {"1" : Stats(), "2" : Stats(), "4" : Stats(), "8" : Stats(), 
-                    "10" : Stats(), "20" : Stats(), "30" : Stats(), "40" : Stats(),
-                    "50" : Stats(), "60" : Stats(), "70" : Stats()},
-        "95/5" : {"1" : Stats(), "2" : Stats(), "4" : Stats(), "8" : Stats(), 
-                    "10" : Stats(), "20" : Stats(), "30" : Stats(), "40" : Stats(),
-                    "50" : Stats(), "60" : Stats(), "70" : Stats()}}    
+
+stats = {name : {thr : Stats() for thr in string_threads} for name in workloads}    
 #loop through all files
-thread_part = ["threads_" +str(x) + "_cops_" + str(100 * x) for x in [1, 2, 4, 8, 10, 20, 30, 40, 50, 60, 70]]
-xys = ["x_99_y_1", "x_95_y_5", "x_90_y_10"]
-filenames = ['{}_{}_{}_secs_10'.format(name, xy, threads_cops) for name in ['flex', 'skip'] for xy in xys for threads_cops in thread_part]
+filenames = ["skiplist", "tree", "cbtree_ideal", "flexlist_ideal", "cbtree_100t", "flexlist_100t", "cbtree_10t", "flexlist_10t", "cbtree_1000", "flexlist_1000"]
 #print (filenames)
 
 for filename in filenames:
-    inp = open("./results_without_wormap/" + filename, "r")
+    inp = open("./results/" + filename, "r")
     # parameters:
     # threads: 1
     # x: 99
@@ -58,41 +50,22 @@ for filename in filenames:
         if secs[1] == "10":
             ops = float((results[1].split(" "))[1]) / float(secs[1])
             avgLen = float(results[2].split(" ")[1])
-            if (filename in ['ideal_{}_{}_secs_10'.format(xy, threads_cops) for xy in xys for threads_cops in thread_part]):
-                #print(ops)
-                stats[x[1] + "/" + y[1]][threads[1]].ops_ideal += ops
-                stats[x[1] + "/" + y[1]][threads[1]].avgLen_ideal += avgLen
-            if (filename in ['skip_{}_{}_secs_10'.format(xy, threads_cops) for xy in xys for threads_cops in thread_part]):
-                stats[x[1] + "/" + y[1]][threads[1]].ops_real += ops
-                stats[x[1] + "/" + y[1]][threads[1]].avgLen_real += avgLen
-            if (filename in ['flex_{}_{}_secs_10'.format(xy, threads_cops) for xy in xys for threads_cops in thread_part]):
-                stats[x[1] + "/" + y[1]][threads[1]].ops_flex += ops
-                stats[x[1] + "/" + y[1]][threads[1]].avgLen_flex += avgLen
+            stats[x[1] + "/" + y[1]][threads[1]].ops[filename] += ops;
+            stats[x[1] + "/" + y[1]][threads[1]].avgLen[filename] += avgLen
     inp.close()
-print("flex 99/1", str(stats["99/1"]["70"].ops_flex / stats["99/1"]["1"].ops_flex))
-print("skip", str(stats["99/1"]["70"].ops_real / stats["99/1"]["1"].ops_real))
-print("flex 95/5", str(stats["95/5"]["70"].ops_flex / stats["95/5"]["1"].ops_flex))
-print("skip", str(stats["95/5"]["70"].ops_real / stats["95/5"]["1"].ops_real))
-print("flex 90/10", str(stats["90/10"]["70"].ops_flex / stats["90/10"]["1"].ops_flex))
-print("skip", str(stats["90/10"]["70"].ops_real / stats["90/10"]["1"].ops_real))
-for name in ["90/10", "95/5", "99/1"]:
-    threads = [1, 2, 4, 8, 10, 20, 30, 40, 50, 60, 70]
-    yskip = []
-    yideal = []
-    yflex = []
-    for num in ["1", "2", "4", "8", "10", "20", "30", "40", "50", "60", "70"]:
-        stats[name][num].ops_real /= num_of_runs
-        stats[name][num].ops_ideal /= num_of_runs
-        stats[name][num].ops_flex /= num_of_runs
-        yskip.append(stats[name][num].ops_real / (1000000.0))
-        yideal.append(stats[name][num].ops_ideal / (1000000.0))
-        yflex.append(stats[name][num].ops_flex / (1000000.0))
+
+for workload in workloads:
+    y = {fname : [] for fname in filenames}
+    # y = {"skiplist" : [], "tree" : [], "cbtree_ideal" : [], "flexlist_ideal" : [], "cbtree_100t" : [], "flexlist_100t" : [], "cbtree_10t" : [], "flexlist_10t" : [], "cbtree_1000" : [], "flexlist_1000" : []}
+    for num in string_threads:
+        for filename in filenames:
+            stats[workload][num].ops[filename] /= num_of_runs
+            y[filename].append(stats[workload][num].ops[filename] / (1000000.0))
     fig, ax = plt.subplots()
-    ax.plot(threads, yskip, label='skiplist')
-    #ax.plot(threads, yideal)
-    ax.plot(threads, yflex, label='splaylist')
+    for filename in filenames :
+        ax.plot(threads, y[filename], label=filename)
     ax.legend()
-    cnm = name.split("/")
+    cnm = workload.split("/")
     ax.set(xlabel='Number of threads', ylabel=r'$10^6$ operations per second')
-    fig.savefig("workload" + cnm[0] + "_" + cnm[1] + "_without_wordmap.png")
+    fig.savefig("./workload" + cnm[0] + "_" + cnm[1] + ".png")
     plt.show()
