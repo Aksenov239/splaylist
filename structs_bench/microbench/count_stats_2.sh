@@ -22,9 +22,9 @@ do
                 x=$((100-y))
                 cops=$((100*threads))
                 echo "starting to count x=$x, y=$y, threads=$threads, secs=$s, cops=$cops"
-                ./bin/ubench_skiplist_locks.alloc_new.reclaim_none.pool_none.out prefill $prefill secs $s presecs $s x $x y $y cops $cops threads $threads >> results/skip_x_${x}_y_${y}_threads_${threads}_cops_${cops}_secs_${s}
+                ./bin/ubench_skiplist_locks.alloc_new.reclaim_none.pool_none.out prefill $prefill secs $s presecs 0 x $x y $y cops $cops threads $threads >> results/skip_x_${x}_y_${y}_threads_${threads}_cops_${cops}_secs_${s}
                 #./bin/ubench_ideal_skiplist_locks.alloc_new.reclaim_none.pool_none.out prefill $prefill secs $s presecs $s x $x y $y cops $cops threads $threads ideal ideal >> results/ideal_x_${x}_y_${y}_threads_${threads}_cops_${cops}_secs_${s}
-                ./bin/ubench_flexlist_locks.alloc_new.reclaim_none.pool_none.out prefill $prefill secs $s presecs $s x $x y $y cops $cops threads $threads >> results/flex_x_${x}_y_${y}_threads_${threads}_cops_${cops}_secs_${s}
+                ./bin/ubench_flexlist_locks.alloc_new.reclaim_none.pool_none.out prefill $prefill secs $s presecs 0 x $x y $y cops $cops threads $threads >> results/flex_x_${x}_y_${y}_threads_${threads}_cops_${cops}_secs_${s}
             done        
         done
     done

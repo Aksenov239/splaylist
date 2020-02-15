@@ -31,15 +31,12 @@ class CBTree {
 		root = new NodeType(max_key, no_value);
         eps = 1.0 / (1 << rotation_eps);
         one_plus_eps = 1 + eps;
-        pthread_rwlock_init(&lock, NULL);
 	}
 	sval_t insertIfAbsent(skey_t key, sval_t val) {
 		NodeTypePtr parent_node;
-        pthread_rwlock_wrlock(&lock);
         NodeTypePtr node = search(key, &parent_node);
         if (node != nullptr)
         {
-            pthread_rwlock_unlock(&lock);
             return node->value;
         }
         else {
@@ -49,24 +46,12 @@ class CBTree {
             else
                 parent_node->right = node;
             node->w++;
-            pthread_rwlock_unlock(&lock);
             return this->no_value;
         }
 	}
 	sval_t find(int tid, skey_t x) {
         NodeTypePtr node;
-        if (tid == 1)
-        {
-            pthread_rwlock_wrlock(&lock);
-            node = search(x, nullptr);
-            pthread_rwlock_unlock(&lock);
-        }
-        else
-        {
-            pthread_rwlock_rdlock(&lock);
-            node = search_no_restructure(x);
-            pthread_rwlock_unlock(&lock);
-        }
+        node = search(x, nullptr);
         if (node != nullptr)
             return node->value;
 		return this->no_value;
@@ -80,7 +65,6 @@ class CBTree {
     }
 	private:
 	long long length;
-    pthread_rwlock_t lock;
     typedef CBTreeNode<skey_t, sval_t> NodeType;
     typedef NodeType* NodeTypePtr;
     const skey_t max_key;

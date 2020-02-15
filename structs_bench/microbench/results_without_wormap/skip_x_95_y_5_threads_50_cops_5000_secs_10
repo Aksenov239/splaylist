@@ -1,0 +1,55 @@
+parameters:
+threads: 50
+x: 95
+y: 5
+prefill: 100000
+secs: 10
+upd ops: 5000
+ideal: 0
+results:
+h: 0, ops: 1370144332, sumLengths: 30.84128474
+
+parameters:
+threads: 50
+x: 95
+y: 5
+prefill: 100000
+secs: 10
+upd ops: 5000
+ideal: 0
+results:
+h: 0, ops: 1148894092, sumLengths: 30.84135875
+
+parameters:
+threads: 50
+x: 95
+y: 5
+prefill: 100000
+secs: 10
+upd ops: 5000
+ideal: 0
+results:
+h: 0, ops: 1151473681, sumLengths: 30.84133734
+
+parameters:
+threads: 50
+x: 95
+y: 5
+prefill: 100000
+secs: 10
+upd ops: 5000
+ideal: 0
+results:
+h: 0, ops: 1154908902, sumLengths: 30.84133676
+
+parameters:
+threads: 50
+x: 95
+y: 5
+prefill: 100000
+secs: 10
+upd ops: 5000
+ideal: 0
+results:
+h: 0, ops: 1149598750, sumLengths: 30.84128567
+

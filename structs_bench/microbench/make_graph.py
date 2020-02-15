@@ -29,7 +29,7 @@ filenames = ['{}_{}_{}_secs_10'.format(name, xy, threads_cops) for name in ['fle
 #print (filenames)
 
 for filename in filenames:
-    inp = open("./results/" + filename, "r")
+    inp = open("./results_without_wormap/" + filename, "r")
     # parameters:
     # threads: 1
     # x: 99
@@ -94,5 +94,5 @@ for name in ["90/10", "95/5", "99/1"]:
     ax.legend()
     cnm = name.split("/")
     ax.set(xlabel='Number of threads', ylabel=r'$10^6$ operations per second')
-    fig.savefig("workload" + cnm[0] + "_" + cnm[1] + ".png")
+    fig.savefig("workload" + cnm[0] + "_" + cnm[1] + "_without_wordmap.png")
     plt.show()

@@ -20,8 +20,8 @@ class Stats:
 
 stats = {"90/10" : Stats(), "95/5" : Stats(), "99/1" : Stats()}    
 #loop through all files
-for filename in ["skip", "flex", "cbtree"]:
-    inp = open("./results_for_table/" + filename, "r")
+for filename in ["skip_without_warmap", "flex_without_warmap", "cbtree_without_warmap"]:
+    inp = open("./results_for_table_2/" + filename, "r")
     # parameters:
     # threads: 1
     # x: 99
@@ -51,13 +51,13 @@ for filename in ["skip", "flex", "cbtree"]:
             if secs[1] == "10":
                 ops = float((results[1].split(" "))[1]) / float(secs[1])
                 avgLen = float(results[2].split(" ")[1])
-                if (filename == "skip"):
+                if (filename == "skip_without_wormap"):
                     stats[x[1] + "/" + y[1]].ops_real += ops
                     stats[x[1] + "/" + y[1]].avgLen_real += avgLen
-                if (filename == "cbtree"):
+                if (filename == "cbtree_without_wormap"):
                     stats[x[1] + "/" + y[1]].ops_cbtree += ops
                     stats[x[1] + "/" + y[1]].avgLen_cbtree += avgLen    
-                if (filename == "flex"):
+                if (filename == "flex_without_wormap"):
                     if upd[2] == "1":
                         stats[x[1] + "/" + y[1]].ops_updOpt1 += ops
                         stats[x[1] + "/" + y[1]].avgLen_updOpt1 += avgLen

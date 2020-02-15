@@ -3,7 +3,9 @@
 #include <atomic>
 #include <memory>
 #include <sstream>
-#include <pthread.h>
+#include <mutex>
+#include <shared_mutex>
+
 using namespace std;
 
 template <typename K, typename V>
@@ -31,12 +33,17 @@ class CBTree {
 		root = new NodeType(max_key, no_value);
         eps = 1.0 / (1 << rotation_eps);
         one_plus_eps = 1 + eps;
+
+        //pthread_rwlock_init(&lock, NULL);
 	}
 	sval_t insertIfAbsent(skey_t key, sval_t val) {
 		NodeTypePtr parent_node;
+        //pthread_rwlock_wrlock(&lock);
+        std::unique_lock<std::shared_timed_mutex> lock(mutex_);
         NodeTypePtr node = search(key, &parent_node);
         if (node != nullptr)
         {
+            //pthread_rwlock_unlock(&lock);
             return node->value;
         }
         else {
@@ -46,12 +53,30 @@ class CBTree {
             else
                 parent_node->right = node;
             node->w++;
+            //pthread_rwlock_unlock(&lock);
             return this->no_value;
         }
 	}
 	sval_t find(int tid, skey_t x) {
         NodeTypePtr node;
-        node = search(x, nullptr);
+        if (tid == 1)
+        {
+            //lock.lockW();
+            std::unique_lock<std::shared_timed_mutex> lock1(mutex_);
+            //pthread_rwlock_wrlock(&lock);
+            node = search(x, nullptr);
+            //lock.unlockW();
+            //pthread_rwlock_unlock(&lock);
+        }
+        else
+        {
+            std::shared_lock<std::shared_timed_mutex> lock1(mutex_);
+            //lock.lockR();
+            //pthread_rwlock_rdlock(&lock);
+            node = search_no_restructure(x);
+            //lock.unlockR();
+            //pthread_rwlock_unlock(&lock);
+        }
         if (node != nullptr)
             return node->value;
 		return this->no_value;
@@ -65,6 +90,8 @@ class CBTree {
     }
 	private:
 	long long length;
+    std::shared_timed_mutex mutex_;
+    //pthread_rwlock_t lock;
     typedef CBTreeNode<skey_t, sval_t> NodeType;
     typedef NodeType* NodeTypePtr;
     const skey_t max_key;
