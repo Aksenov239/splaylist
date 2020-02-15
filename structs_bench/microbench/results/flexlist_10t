@@ -1,0 +1,231 @@
+parameters:
+threads: 1
+x: 99
+y: 1
+prefill: 100000
+secs: 5
+upd ops: 10
+ideal: 0
+results:
+h: 0, ops: 32932000, sumLengths: 17.52388743
+
+parameters:
+threads: 2
+x: 99
+y: 1
+prefill: 100000
+secs: 5
+upd ops: 20
+ideal: 0
+results:
+h: 0, ops: 49245000, sumLengths: 17.69380504
+
+parameters:
+threads: 4
+x: 99
+y: 1
+prefill: 100000
+secs: 5
+upd ops: 40
+ideal: 0
+results:
+h: 0, ops: 97408000, sumLengths: 17.72171788
+
+parameters:
+threads: 10
+x: 99
+y: 1
+prefill: 100000
+secs: 5
+upd ops: 100
+ideal: 0
+results:
+h: 0, ops: 219191000, sumLengths: 17.72964211
+
+parameters:
+threads: 30
+x: 99
+y: 1
+prefill: 100000
+secs: 5
+upd ops: 300
+ideal: 0
+results:
+h: 0, ops: 293985000, sumLengths: 18.34540209
+
+parameters:
+threads: 50
+x: 99
+y: 1
+prefill: 100000
+secs: 5
+upd ops: 500
+ideal: 0
+results:
+h: 0, ops: 415603000, sumLengths: 18.45633244
+
+parameters:
+threads: 70
+x: 99
+y: 1
+prefill: 100000
+secs: 5
+upd ops: 700
+ideal: 0
+results:
+h: 0, ops: 538209000, sumLengths: 18.53383773
+
+parameters:
+threads: 1
+x: 95
+y: 5
+prefill: 100000
+secs: 5
+upd ops: 10
+ideal: 0
+results:
+h: 0, ops: 18283000, sumLengths: 21.79318099
+
+parameters:
+threads: 2
+x: 95
+y: 5
+prefill: 100000
+secs: 5
+upd ops: 20
+ideal: 0
+results:
+h: 0, ops: 34306000, sumLengths: 21.78556489
+
+parameters:
+threads: 4
+x: 95
+y: 5
+prefill: 100000
+secs: 5
+upd ops: 40
+ideal: 0
+results:
+h: 0, ops: 66709000, sumLengths: 21.78438572
+
+parameters:
+threads: 10
+x: 95
+y: 5
+prefill: 100000
+secs: 5
+upd ops: 100
+ideal: 0
+results:
+h: 0, ops: 166616000, sumLengths: 21.81858502
+
+parameters:
+threads: 30
+x: 95
+y: 5
+prefill: 100000
+secs: 5
+upd ops: 300
+ideal: 0
+results:
+h: 0, ops: 288517000, sumLengths: 21.91719352
+
+parameters:
+threads: 50
+x: 95
+y: 5
+prefill: 100000
+secs: 5
+upd ops: 500
+ideal: 0
+results:
+h: 0, ops: 412448000, sumLengths: 21.95797862
+
+parameters:
+threads: 70
+x: 95
+y: 5
+prefill: 100000
+secs: 5
+upd ops: 700
+ideal: 0
+results:
+h: 0, ops: 520949000, sumLengths: 22.00330348
+
+parameters:
+threads: 1
+x: 90
+y: 10
+prefill: 100000
+secs: 5
+upd ops: 10
+ideal: 0
+results:
+h: 0, ops: 14654000, sumLengths: 23.23394561
+
+parameters:
+threads: 2
+x: 90
+y: 10
+prefill: 100000
+secs: 5
+upd ops: 20
+ideal: 0
+results:
+h: 0, ops: 27931000, sumLengths: 23.23343128
+
+parameters:
+threads: 4
+x: 90
+y: 10
+prefill: 100000
+secs: 5
+upd ops: 40
+ideal: 0
+results:
+h: 0, ops: 55574000, sumLengths: 23.22856453
+
+parameters:
+threads: 10
+x: 90
+y: 10
+prefill: 100000
+secs: 5
+upd ops: 100
+ideal: 0
+results:
+h: 0, ops: 146186000, sumLengths: 23.22600331
+
+parameters:
+threads: 30
+x: 90
+y: 10
+prefill: 100000
+secs: 5
+upd ops: 300
+ideal: 0
+results:
+h: 0, ops: 261803000, sumLengths: 23.33984711
+
+parameters:
+threads: 50
+x: 90
+y: 10
+prefill: 100000
+secs: 5
+upd ops: 500
+ideal: 0
+results:
+h: 0, ops: 395054000, sumLengths: 23.37525117
+
+parameters:
+threads: 70
+x: 90
+y: 10
+prefill: 100000
+secs: 5
+upd ops: 700
+ideal: 0
+results:
+h: 0, ops: 483596000, sumLengths: 23.42068524
+

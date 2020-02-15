@@ -1,8 +1,9 @@
 filenames = []
 num_of_runs = 5.0
 class Stats:
-    ops = {filename : 0.0 for filename in filenames}
-    avgLen = {filename : 0.0 for filename in filenames}
+    def __init__(self):
+        self.ops = {filename : 0.0 for filename in filenames}
+        self.avgLen = {filename : 0.0 for filename in filenames}
 
 stats = {"90/10" : Stats(), "95/5" : Stats(), "99/1" : Stats()}    
 loop through all files
