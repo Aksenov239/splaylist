@@ -1,3 +1,5 @@
+#prefix = "./results_for_table_2/"
+prefix = "./results_zipf_for_table/"
 filenames = ["skiplist",
              "flexlist_1", "flexlist_2", "flexlist_5", "flexlist_10", "flexlist_100", "flexlist_1000",
              "cbtree_1", "cbtree_2", "cbtree_5", "cbtree_10", "cbtree_100", "cbtree_1000"]
@@ -6,11 +8,12 @@ class Stats:
     def __init__(self):
         self.ops = {filename : 0.0 for filename in filenames}
         self.avgLen = {filename : 0.0 for filename in filenames}
+        self.count = {filename: 0 for filename in filenames}
 
 stats = {"90/10" : Stats(), "95/5" : Stats(), "99/1" : Stats(), "zipf/1" : Stats()}    
 #loop through all files
 for filename in filenames:
-    inp = open("./results_for_table_2/" + filename, "r")
+    inp = open(prefix + filename, "r")
     # parameters:
     # threads: 1
     # x: 99
@@ -23,18 +26,17 @@ for filename in filenames:
     # h: 15, ops: 1783472, sumLengths: 30.99154234
     #
     lines = inp.readlines()
-    for i in range(0, len(lines), 11):
-    lines = inp.readlines()
-    for i in range(0, len(lines), 11):
+    pad = 0
+    if lines[2].split(" ")[0] == "zipf:":
+        pad = 2
+    for i in range(0, len(lines), 11 + pad):
         line = lines[i + 1][:-1]
         thrs = line.split(" ")
         line = lines[i + 2][:-1]
-        pad = 0
-        if line[0] == "zipf":
+        if line.split(" ")[0] == "zipf:":
             zipf = line.split(" ")
             line = lines[i + 3][:-1]
             alpha = line.split(" ")
-            pad = 2
         line = lines[i + 2 + pad][:-1]
         x = line.split(" ")
         line = lines[i + 3 + pad][:-1]
@@ -49,17 +51,22 @@ for filename in filenames:
         if pad == 0 or zipf[1] != "1":
             stats[x[1] + "/" + y[1]].ops[filename] += ops
             stats[x[1] + "/" + y[1]].avgLen[filename] += avgLen
+            stats[x[1] + "/" + y[1]].count[filename] += 1
         else:
             stats["zipf/" + alpha[1]].ops[filename] += ops
-            stats["zipf/" + alpha[1]].ops[filename] += avgLen
+            stats["zipf/" + alpha[1]].avgLen[filename] += avgLen
+            stats["zipf/" + alpha[1]].count[filename] += 1
     inp.close()
 
 out = open("./stats_tables.tex", "w")
 
 for key in stats:
     for filename in filenames:
-        stats[key].ops[filename] /= num_of_runs
-        stats[key].avgLen[filename] /= num_of_runs
+        if stats[key].count[filename] != 0:
+            stats[key].ops[filename] /= stats[key].count[filename]
+            stats[key].avgLen[filename] /= stats[key].count[filename]
+    if stats[key].count["skiplist"] == 0:
+        continue
     baseline = stats[key].ops["skiplist"]
     s = "\\begin{tabular}{|"
     for i in range(len(filenames) + 1):

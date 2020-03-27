@@ -3,23 +3,23 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import numpy as np
 
-filenames = ["skiplist", "tree", "flexlist_ideal", "flexlist_10t", "flexlist_100t", "flexlist_1000",
-             "cbtree_ideal", "cbtree_10t", "cbtree_100t", "cbtree_100", "cbtree_1000", "cbtree_fair_100t"]
-labels = ["Skiplist", "Tree", "Ideal Splaylist", "Splaylist $\\frac{1}{10p}$", "Splaylist $\\frac{1}{100p}$", "Splaylist $\\frac{1}{1000}$",
-          "Ideal CBTree", "CBTree $\\frac{1}{10p}$", "CBTree $\\frac{1}{100p}$", "CBTree $\\frac{1}{100}$", "CBTree $\\frac{1}{1000}$",
-          "CBTree Fair $\\frac{1}{100p}$"]
+#filenames = ["skiplist", "tree", "flexlist_ideal", "flexlist_10t", "flexlist_100t", "flexlist_1000",
+#             "cbtree_ideal", "cbtree_10t", "cbtree_100t", "cbtree_100", "cbtree_1000", "cbtree_fair_100t"]
+#labels = ["Skiplist", "Tree", "Ideal Splaylist", "Splaylist $\\frac{1}{10p}$", "Splaylist $\\frac{1}{100p}$", "Splaylist $\\frac{1}{1000}$",
+#          "Ideal CBTree", "CBTree $\\frac{1}{10p}$", "CBTree $\\frac{1}{100p}$", "CBTree $\\frac{1}{100}$", "CBTree $\\frac{1}{1000}$",
+#          "CBTree Fair $\\frac{1}{100p}$"]
 
-#filenames = ["skiplist",
-#             "flexlist_1000t", "flexlist_100t", "flexlist_10t",
-#             "cbtree_1000", "cbtree_100", "cbtree_10",
-#             "cbtree_fair_1000t", "cbtree_fair_100t", "cbtree_fair_10t"]
-#labels = ["Skip-list",
-#          "Splay-list $\\frac{1}{1000p}$", "Splay-list $\\frac{1}{100p}$", "Splay-list $\\frac{1}{10p}$",
-#          "CBTree $\\frac{1}{1000}$", "CBTree $\\frac{1}{100}$", "CBTree $\\frac{1}{10}$",
-#          "CBTree Fair $\\frac{1}{1000p}$", "CBTree Fair $\\frac{1}{100p}$", "CBTree Fair $\\frac{1}{100p}$"]
+filenames = ["skiplist",
+             "flexlist_1000t", "flexlist_100t", "flexlist_10t",
+             "cbtree_1000", "cbtree_100", "cbtree_10",
+             "cbtree_fair_1000t", "cbtree_fair_100t", "cbtree_fair_10t"]
+labels = ["Skip-list",
+          "Splay-list $\\frac{1}{1000p}$", "Splay-list $\\frac{1}{100p}$", "Splay-list $\\frac{1}{10p}$",
+          "CBTree $\\frac{1}{1000}$", "CBTree $\\frac{1}{100}$", "CBTree $\\frac{1}{10}$",
+          "CBTree Fair $\\frac{1}{1000p}$", "CBTree Fair $\\frac{1}{100p}$", "CBTree Fair $\\frac{1}{100p}$"]
 
-prefix = "./results/"
-filenames = ["flexlist_10t", "cbtree_10", "cbtree_fair_10t"]
+prefix = "./results_zipf/"
+filenames = ["flexlist_1000t", "cbtree_1000", "cbtree_fair_1000t"]
 labels = ["Splay-list", "CBTree Unfair", "CBTree Fair"]
 
 threads = [1, 2, 4, 8, 10, 20, 30, 40, 50, 60, 70]
@@ -31,13 +31,11 @@ class Stats:
     def __init__(self):
         self.ops = {filename : 0.0 for filename in filenames}
         self.avgLen = {filename : 0.0 for filename in filenames}
+        self.count = {filename : 0 for filename in filenames}
 
-num_of_runs = 5.0
-
-
+#num_of_runs = 5.0
 
 stats = {name : {thr : Stats() for thr in string_threads} for name in workloads}    
-
 
 for filename in filenames:
     inp = open(prefix + filename, "r")
@@ -56,16 +54,17 @@ for filename in filenames:
     #
     print(filename)
     lines = inp.readlines()
-    for i in range(0, len(lines), 11):
+    pad = 0
+    if lines[2].split(" ")[0] == "zipf:":
+        pad = 2
+    for i in range(0, len(lines), 11 + pad):
         line = lines[i + 1][:-1]
         thrs = line.split(" ")
         line = lines[i + 2][:-1]
-        pad = 0
-        if line[0] == "zipf":
+        if line.split(" ")[0] == "zipf:":
             zipf = line.split(" ")
             line = lines[i + 3][:-1]
             alpha = line.split(" ")
-            pad = 2
         line = lines[i + 2 + pad][:-1]
         x = line.split(" ")
         line = lines[i + 3 + pad][:-1]
@@ -85,9 +84,11 @@ for filename in filenames:
             stats[x[1] + "/" + y[1]][thrs[1]].ops[filename] += ops
             # print(stats[x[1] + "/" + y[1]][thrs[1]].ops[filename])
             stats[x[1] + "/" + y[1]][thrs[1]].avgLen[filename] += avgLen
+            stats[x[1] + "/" + y[1]][thrs[1]].count[filename] += 1
         else:
             stats["zipf/" + alpha[1]][thrs[1]].ops[filename] += ops
-            stats["zipf/" + alpha[1]][thrs[1]].ops[filename] += avgLen
+            stats["zipf/" + alpha[1]][thrs[1]].avgLen[filename] += avgLen
+            stats["zipf/" + alpha[1]][thrs[1]].count[filename] += 1
     inp.close()
 
 markers = ['o', 's', '*', 'x', '+', '^', 'D']
@@ -95,10 +96,17 @@ for workload in workloads:
 #    print("Workload " + workload)
     y = {fname : [] for fname in filenames}
     # y = {"skiplist" : [], "tree" : [], "cbtree_ideal" : [], "flexlist_ideal" : [], "cbtree_100t" : [], "flexlist_100t" : [], "cbtree_10t" : [], "flexlist_10t" : [], "cbtree_1000" : [], "flexlist_1000" : []}
+    no_data = False
     for num in string_threads:
         for filename in filenames:
-            stats[workload][num].ops[filename] /= num_of_runs
+            if stats[workload][num].count[filename] == 0:
+                no_data = True
+                continue
+            stats[workload][num].ops[filename] /= stats[workload][num].count[filename]
             y[filename].append(stats[workload][num].ops[filename] / (1000000.0))        
+
+    if no_data:
+        continue
 
     fig, ax = plt.subplots()
     for plot_id, filename in enumerate(filenames):
