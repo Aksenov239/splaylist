@@ -53,6 +53,73 @@ public:
 
 MyPaddedRandom rnd[STRESS_MAX_THREADS + 1];
 
+class MyKeyGeneratorZipf {
+public:
+    PAD;
+    int maxKey;
+    double alpha;
+    double c = 0; // Normalization constant
+    double * sum_probs; // Pre-calculated sum of probabilities
+    PAD;
+    
+    MyKeyGeneratorZipf(int _maxKey, double _alpha) {
+//        std::cout<<"start MyKeyGeneratorZipfData"<<std::endl;
+        maxKey = _maxKey;
+        alpha = _alpha;
+        
+        // Compute normalization constant c for implied key range: [1, maxKey]
+        int i;
+        for (i = 1; i <= _maxKey; i++)
+            c = c + (1.0 / pow((double) i, alpha));
+        c = 1.0 / c;
+
+        sum_probs = new double[_maxKey+1];
+        sum_probs[0] = 0;
+        for (i = 1; i <= _maxKey; i++) {
+            sum_probs[i] = sum_probs[i - 1] + c / pow((double) i, alpha);
+        }
+//        std::cout<<"end MyKeyGeneratorZipfData"<<std::endl;
+    }
+
+    int generateValue(int tid) {
+        double z; // Uniform random number (0 < z < 1)
+        int zipf_value; // Computed exponential value to be returned
+        int low, high, mid; // Binary-search bounds
+
+        // Pull a uniform random number (0 < z < 1)
+        do {
+            z = (rnd[tid].genRandom() / (double) std::numeric_limits<unsigned int>::max());
+            assert((0 <= z) && (z <= 1));
+//            printf("    z=%lf\n", z);
+        } while ((z == 0) || (z == 1));
+
+        // Map z to the value
+        low = 1, high = maxKey, mid;
+        do {
+            mid = floor((low + high) / 2);
+            if (sum_probs[mid] >= z && sum_probs[mid - 1] < z) {
+                zipf_value = mid;
+                break;
+            } else if (sum_probs[mid] >= z) {
+                high = mid - 1;
+            } else {
+                low = mid + 1;
+            }
+        } while (low <= high);
+
+        // Assert that zipf_value is between 1 and N
+        assert((zipf_value >= 1) && (zipf_value <= maxKey));
+
+        return (zipf_value);
+    }
+
+    ~MyKeyGeneratorZipf() {
+        delete[] sum_probs;
+    }
+};
+
+MyKeyGeneratorZipf* myKeyGeneratorZipf;
+bool zipf = false;
 
 void task(int tid) {
 //    std::cerr << tid << " on CPU " << sched_getcpu() << std::endl;
@@ -61,10 +128,16 @@ void task(int tid) {
     bool predperiod = true;
     for (long long i = 0; ; i++) {
         int k = -1;
-        if (ll(rnd[tid].genRandom()) % 100 < x) {
-            k = important[ll(rnd[tid].genRandom()) % int(important.size())];
+        if (zipf) {
+//            std::cerr << "Generated: " << myKeyGeneratorZipf->generateValue(tid) << std::endl;
+//            std::cerr << important.size() << std::endl;
+            k = important[myKeyGeneratorZipf->generateValue(tid) - 1];
         } else {
-            k = rest[ll(rnd[tid].genRandom()) % int(rest.size())];
+            if (ll(rnd[tid].genRandom()) % 100 < x) {
+                k = important[ll(rnd[tid].genRandom()) % int(important.size())];
+            } else {
+                k = rest[ll(rnd[tid].genRandom()) % int(rest.size())];
+            }
         }
         //std::cout << k << "\n";
         //database->printSummary();
@@ -74,6 +147,7 @@ void task(int tid) {
           auto cur = std::chrono::steady_clock::now();
           std::chrono::duration<double> diff = cur - beg;
           if (diff.count() > double(presecs) - (1e-9) && predperiod) {
+              database->warmupEnd();
               predperiod = false;
               ops[tid] = -i;
               len[tid] -= database->getPathsLength(tid);
@@ -93,6 +167,9 @@ int main(int argc, char **argv) {
     for (int i = 0; i <= STRESS_MAX_THREADS; i++) {
         rnd[i].setSeed(i + 1);
     }
+
+    zipf = false;
+    double alpha = 0;
 
     for (int i = 1; i < argc; i += 2) {
         //std::cout << argv[i] << "\n";
@@ -116,12 +193,16 @@ int main(int argc, char **argv) {
             cops = atoi(argv[i + 1]);
         } else if (string(argv[i]) == "ideal") {
             ideal = true;
+        } else if (string(argv[i]) == "zipf") {
+            zipf = true;
+            alpha = atof(argv[i + 1]);
         } else {
             std::cout << "Wrong arguments";
             exit(0);
         }
-
     }
+
+    myKeyGeneratorZipf = new MyKeyGeneratorZipf(prefill, alpha);
 
     database->setCops(0, cops);
 
@@ -135,7 +216,7 @@ int main(int argc, char **argv) {
         if (!ideal)
             database->insertIfAbsent(0, key, KEY_TO_VALUE(key));
         keys.insert(key);
-        if (ll(rnd[0].genRandom()) % 100 < y) {
+        if (ll(rnd[0].genRandom()) % 100 < y || zipf) {
             important.push_back(key);
         } else {
             rest.push_back(key);
@@ -169,6 +250,8 @@ int main(int argc, char **argv) {
     cout.precision(10);
     std::cout << "parameters:\n";
     std::cout << "threads: " << num_threads << "\n";
+    std::cout << "zipf: " << zipf << "\n";
+    std::cout << "alpha: " << alpha << "\n";
     std::cout << "x: " << x << "\n";
     std::cout << "y: " << y << "\n";
     std::cout << "prefill: " << prefill << "\n";

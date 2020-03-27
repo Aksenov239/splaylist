@@ -1,12 +1,14 @@
-filenames = []
+filenames = ["skiplist",
+             "flexlist_1", "flexlist_2", "flexlist_5", "flexlist_10", "flexlist_100", "flexlist_1000",
+             "cbtree_1", "cbtree_2", "cbtree_5", "cbtree_10", "cbtree_100", "cbtree_1000"]
 num_of_runs = 5.0
 class Stats:
     def __init__(self):
         self.ops = {filename : 0.0 for filename in filenames}
         self.avgLen = {filename : 0.0 for filename in filenames}
 
-stats = {"90/10" : Stats(), "95/5" : Stats(), "99/1" : Stats()}    
-loop through all files
+stats = {"90/10" : Stats(), "95/5" : Stats(), "99/1" : Stats(), "zipf/1" : Stats()}    
+#loop through all files
 for filename in filenames:
     inp = open("./results_for_table_2/" + filename, "r")
     # parameters:
@@ -22,31 +24,43 @@ for filename in filenames:
     #
     lines = inp.readlines()
     for i in range(0, len(lines), 11):
+    lines = inp.readlines()
+    for i in range(0, len(lines), 11):
         line = lines[i + 1][:-1]
-        threads = line.split(" ")
+        thrs = line.split(" ")
         line = lines[i + 2][:-1]
+        pad = 0
+        if line[0] == "zipf":
+            zipf = line.split(" ")
+            line = lines[i + 3][:-1]
+            alpha = line.split(" ")
+            pad = 2
+        line = lines[i + 2 + pad][:-1]
         x = line.split(" ")
-        line = lines[i + 3][:-1]
+        line = lines[i + 3 + pad][:-1]
         y = line.split(" ")
-        line = lines[i + 5][:-1]
+        line = lines[i + 5 + pad][:-1]
         secs = line.split(" ")
-        line = lines[i + 6][:-1]
+        line = lines[i + 6 + pad][:-1]
         upd = line.split(" ")
-        results = lines[i + 9].split(", ")
-        #print(x, y, secs)
+        results = lines[i + 9 + pad].split(", ")
         ops = float((results[1].split(" "))[1]) / float(secs[1])
         avgLen = float(results[2].split(" ")[1])
-        stats[x[1] + "/" + y[1]].ops[filename] += ops;
-        stats[x[1] + "/" + y[1]].avgLen[filename] += ops;
+        if pad == 0 or zipf[1] != "1":
+            stats[x[1] + "/" + y[1]].ops[filename] += ops
+            stats[x[1] + "/" + y[1]].avgLen[filename] += avgLen
+        else:
+            stats["zipf/" + alpha[1]].ops[filename] += ops
+            stats["zipf/" + alpha[1]].ops[filename] += avgLen
     inp.close()
+
 out = open("./stats_tables.tex", "w")
-
-
 
 for key in stats:
     for filename in filenames:
         stats[key].ops[filename] /= num_of_runs
         stats[key].avgLen[filename] /= num_of_runs
+    baseline = stats[key].ops["skiplist"]
     s = "\\begin{tabular}{|"
     for i in range(len(filenames) + 1):
         s += "c|"
@@ -56,10 +70,13 @@ for key in stats:
     for filename in filenames:
         s += " & $" + filename + "$"
     out.write(s + "\\\\\\hline\n")  
-    s = "$ops/secs$"
-    t = "$avgLen"
+    s = "relative"
+    t = "length"
     for filename in filenames:
-        s += " & {:.2f}".format(stats[key].ops[filename])
+        if filename == "skiplist":  
+            s += " & {}".format(baseline)
+        else:
+            s += " & {:.2f}x".format(1. * stats[key].ops[filename] / baseline)
         t += " & {:.2f}".format(stats[key].avgLen[filename])
     out.write(s + "\\\\\\hline\n")  
     out.write(t + "\\\\\\hline\n")      
