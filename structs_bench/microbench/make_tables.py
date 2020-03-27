@@ -70,7 +70,7 @@ for key in stats:
     for filename in filenames:
         s += " & $" + filename + "$"
     out.write(s + "\\\\\\hline\n")  
-    s = "relative"
+    s = "ops/secs"
     t = "length"
     for filename in filenames:
         if filename == "skiplist":  
