@@ -7,7 +7,7 @@ CFLAGS += -DMEMORY_STATS=if\(1\) -DMEMORY_STATS2=if\(0\)
 CFLAGS += -DMAX_THREADS_POW2=256 -DCPU_FREQ_GHZ=2.7
 #СFLAGS += -DCPU_FREQ_GHZ=2.7 
 #$(shell ../microbench/experiments/get_cpu_ghz.sh)
-CFLAGS += -g -std=c++14 -O3
+CFLAGS += -g -std=c++14 -O2
 CFLAGS += -fopenmp
 CFLAGS += $(xargs)
 CFLAGS += -Wno-format

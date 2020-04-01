@@ -49,6 +49,9 @@ public:
         return tree->getLength();
     }
 
+    void warmupEnd() {
+    }
+
     V insert(const int tid, const K& key, const V& val) {
         setbench_error("insert-replace not implemented for this data structure");
     }

@@ -57,6 +57,10 @@ public:
 
     void setCops(const int tid, int cops) {
     }
+
+    void warmupEnd() {
+    }
+
     V insert(const int tid, const K& key, const V& val) {
         setbench_error("insert-replace functionality not implemented for this data structure");
     }

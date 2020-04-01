@@ -1,4 +1,4 @@
-#rm -r results
+rm -r results_zipf
 mkdir results_zipf
 make all
 # echo "counting block for 100 100"
@@ -9,7 +9,7 @@ make all
 seconds=(10)
 prefill=100000
 thr=(1 2 4 8 10 20 30 40 50 60 70)
-for((cnt=0;cnt<5;cnt++)) 
+for((cnt=0;cnt<10;cnt++)) 
 do
     for threads in "${thr[@]}" 
     do

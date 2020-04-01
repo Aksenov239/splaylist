@@ -13,6 +13,7 @@ workloads="TPCC"
 algs=( \
     "flexlist_locks:" \
     "bronson_pext_bst_occ:" \
+    "cbtree-concurrent:" \
 #    "brown_ext_ist_lf:" \
 #    "brown_ext_abtree_lf:" \
 #    "brown_ext_abtree_rq_lf:" \

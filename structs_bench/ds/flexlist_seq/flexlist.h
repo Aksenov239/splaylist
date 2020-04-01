@@ -117,10 +117,10 @@ void FlexList<K, V, RecordManager>::update(const int tid, K key) {
                 } else
                     cur->hits[h]++;
             }
-            if (h + 1 < MAX_LEVEL && h < (predpred->topLevel) && (predpred->next[h]) == cur && ((predpred->hits[h + 1]) - (predpred->hits[h])) > (curAccess / (1 << (MAX_LEVEL - 1 - h - 1)))) {
+            if (h + 1 < MAX_LEVEL && h < (predpred->topLevel) && (predpred->next[h]) == cur && ((predpred->hits[h + 1]) - (predpred->hits[h])) > (accessCounter / (1 << (MAX_LEVEL - 1 - h - 1)))) {
                 int curh = (cur->topLevel);
                 while (curh + 1 < MAX_LEVEL && curh < (predpred->topLevel) &&
-                       ((predpred->hits[curh + 1]) - (predpred->hits[curh])) > (curAccess / (1 << (MAX_LEVEL - 1 - curh - 1)))) {
+                       ((predpred->hits[curh + 1]) - (predpred->hits[curh])) > (accessCounter / (1 << (MAX_LEVEL - 1 - curh - 1)))) {
                     (cur->topLevel++);
                     curh++;
                     cur->hits[curh] = ((predpred->hits[curh]) - (predpred->hits[curh - 1]) - (cur->selfhits));
@@ -132,7 +132,7 @@ void FlexList<K, V, RecordManager>::update(const int tid, K key) {
                 pred = cur;
                 cur = cur->next[h];
                 continue;
-            } else if ((cur->topLevel) == h && (cur->next[h]->key) <= key && getHits(cur, h) + getHits(pred, h) <= (curAccess / (1 << (MAX_LEVEL - 1 - h)))) {
+            } else if ((cur->topLevel) == h && (cur->next[h]->key) <= key && getHits(cur, h) + getHits(pred, h) <= (accessCounter / (1 << (MAX_LEVEL - 1 - h)))) {
                 int curZeroLevel = zeroLevel;
                 if (h == curZeroLevel) {
                     zeroLevel = curZeroLevel - 1;

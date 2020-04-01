@@ -5,9 +5,8 @@ make all
 seconds=(10) 
 cops=(1 2 5 10 100 1000)
 prefill=100000
-yx=(1 5 10)
 thr=(1)
-for((cnt=0;cnt<5;cnt++)) 
+for((cnt=0;cnt<10;cnt++)) 
 do
     for threads in "${thr[@]}" 
     do

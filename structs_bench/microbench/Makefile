@@ -57,7 +57,9 @@ minimal_%: dir_guard
 	$(GPP) $(FLAGS) ../ds/$(@:minimal_%=%)/minimal_example.cpp -o $(bin_dir)/$@ $(LDFLAGS)
 
 DATA_STRUCTURES=$(patsubst ../ds/%/adapter.h,%,$(wildcard ../ds/*/adapter.h))
-RECLAIMERS=debra none
+#DATA_STRUCTURES=flexlist_locks cbtree-concurrent-fair
+#RECLAIMERS=debra none
+RECLAIMERS=none
 POOLS=none
 ALLOCATORS=new
 
