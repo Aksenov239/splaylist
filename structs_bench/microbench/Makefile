@@ -68,9 +68,9 @@ ALLOCATORS=new
 #$(info $(DATA_STRUCTURES))
 
 define make-custom-target =
-ubench_$(1).alloc_$(2).reclaim_$(3).pool_$(4).out: dir_guard
-	$(GPP) benchmark.cpp -o $(bin_dir)/ubench_$(1).alloc_$(2).reclaim_$(3).pool_$(4).out -I../ds/$1 -DDS_TYPENAME=$(1) -DALLOC_TYPE=$(2) -DRECLAIM_TYPE=$(3) -DPOOL_TYPE=$(4) $(FLAGS) $(LDFLAGS)
-all:: ubench_$(1).alloc_$(2).reclaim_$(3).pool_$(4).out
+flextest_$(1).alloc_$(2).reclaim_$(3).pool_$(4).out: dir_guard
+	$(GPP) run.cpp -o $(bin_dir)/flextest_$(1).alloc_$(2).reclaim_$(3).pool_$(4).out -I../ds/$1 -DDS_TYPENAME=$(1) -DALLOC_TYPE=$(2) -DRECLAIM_TYPE=$(3) -DPOOL_TYPE=$(4) $(FLAGS) $(LDFLAGS)
+all:: flextest_$(1).alloc_$(2).reclaim_$(3).pool_$(4).out
 endef
 
 $(foreach ds,$(DATA_STRUCTURES),$(foreach alloc,$(ALLOCATORS),$(foreach reclaim,$(RECLAIMERS),$(foreach pool,$(POOLS),$(eval $(call make-custom-target,$(ds),$(alloc),$(reclaim),$(pool)))))))
