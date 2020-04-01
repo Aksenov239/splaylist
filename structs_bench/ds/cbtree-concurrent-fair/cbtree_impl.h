@@ -74,7 +74,7 @@ class CBTree {
     sval_t find(const int tid, skey_t x) {
         nops[tid].value++;
         NodeTypePtr node;
-        if (tid == 1 && nops[tid].value == cops)
+        if (nops[tid].value == cops)
         {
             //std::unique_lock<std::shared_timed_mutex> lock1(mutex_);
             //pthread_rwlock_wrlock(&lock);
