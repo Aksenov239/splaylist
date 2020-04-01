@@ -74,7 +74,7 @@ public:
     }
 
     V find(const int tid, const K& key) {
-        setbench_error("find functionality not implemented for this data structure");
+        return ds->find(tid, key);
     }
 
     bool contains(const int tid, const K& key) {
@@ -84,7 +84,7 @@ public:
         setbench_error("not implemented");
     }
     void printSummary() {
-        ds->printDebuggingDetails();
+//        ds->printDebuggingDetails();
     }
     bool validateStructure() {
         return ds->validate();

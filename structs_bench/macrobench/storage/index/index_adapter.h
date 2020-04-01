@@ -117,8 +117,8 @@ public:
             rngs[i].setSeed(rand());
         }
         
-        KEY_TYPE minKey = __NO_KEY;
-        KEY_TYPE maxKey = std::numeric_limits<KEY_TYPE>::max();
+        KEY_TYPE minKey = 1;//__NO_KEY;
+        KEY_TYPE maxKey = std::numeric_limits<KEY_TYPE>::max() - 1;
         VALUE_TYPE reservedValue = __NO_VALUE;
         
         if (g_thread_cnt > MAX_THREADS_POW2) {

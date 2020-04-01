@@ -84,6 +84,8 @@ public:
 
     bool contains(const int tid, const K &key);
 
+    V find(const int tid, const K &key);
+
     V insertIfAbsent(const int tid, const K &key, const V &value);
 
     V erase(const int tid, const K &key);
@@ -173,6 +175,30 @@ bool SkipList<K, V, RecordManager>::contains(const int tid, const K &key) {
     }
     return false;
 }
+
+template <typename K, typename V, class RecordManager>
+V SkipList<K, V, RecordManager>::find(const int tid, const K &key) {
+    int flevel = -1;
+    V val = NULL;
+    Node<K, V>* pred = head;
+    for (int level = realMaxLvl; level >= 0; level--) {
+        Node<K, V>* curr = pred;
+        while (key > curr->key) {
+            sumLengths[tid].value++;
+            pred = curr;
+            curr = pred->next[level];
+        }
+        if (key == curr->key) {
+            if ((curr->fullyLinked) && (!curr->mark)) {
+                return curr->value;
+            } else {
+                return NULL;
+            }
+        }
+    }
+    return NULL;
+}
+
 
 template <typename K, typename V, class RecordManager>
 V SkipList<K, V, RecordManager>::insertIfAbsent(const int tid, const K &key, const V &value) {
