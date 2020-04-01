@@ -6,13 +6,13 @@
 # Created on May 28, 2017, 9:56:43 PM
 #
 
-workloads="YCSB"
+workloads="TPCC"
 
 ## format is the following is
 ## data_structure_name:compilation_arguments
 algs=( \
-    "drozdova_flex_list_lock_based:" \
-#    "bronson_pext_bst_occ:" \
+    "flexlist_locks:" \
+    "bronson_pext_bst_occ:" \
 #    "brown_ext_ist_lf:" \
 #    "brown_ext_abtree_lf:" \
 #    "brown_ext_abtree_rq_lf:" \
