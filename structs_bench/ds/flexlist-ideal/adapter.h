@@ -55,6 +55,7 @@ public:
     }
 
     void warmupEnd() {
+        ds->warmupEnd();
     }
 
     V insert(const int tid, const K& key, const V& val) {
@@ -84,7 +85,7 @@ public:
         setbench_error("not implemented");
     }
     void printSummary() {
-//        ds->printDebuggingDetails();
+        ds->printDebuggingDetails();
     }
     bool validateStructure() {
         return ds->validate();

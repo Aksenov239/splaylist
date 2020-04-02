@@ -53,11 +53,12 @@ class CBTree {
     sval_t insertIfAbsent(const int tid, skey_t key, sval_t val) {
         NodeTypePtr parent_node;
         //pthread_rwlock_wrlock(&lock);
-        std::unique_lock<std::shared_timed_mutex> lock(mutex_);
+        lock.exclusiveLock();
         NodeTypePtr node = search(tid, key, &parent_node);
         if (node != nullptr)
         {
             //pthread_rwlock_unlock(&lock);
+            lock.exclusiveUnlock();
             return node->value;
         }
         else {
@@ -67,6 +68,7 @@ class CBTree {
             else
                 parent_node->right = node;
             node->w++;
+            lock.exclusiveUnlock();
             //pthread_rwlock_unlock(&lock);
             return this->no_value;
         }

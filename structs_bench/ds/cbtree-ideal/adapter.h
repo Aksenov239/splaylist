@@ -43,7 +43,6 @@ public:
     }
 
     void setCops(const int tid, int cops) {
-        return tree->setCops(cops);
     }
 
     long long getPathsLength(const int tid) {
@@ -51,6 +50,7 @@ public:
     }
 
     void warmupEnd() {
+        tree->warmupEnd();
     }
 
     V insert(const int tid, const K& key, const V& val) {
@@ -70,7 +70,7 @@ public:
         setbench_error("rangeQuery not implemented for this data structure");
     }
     void printSummary() {
-//        tree->stats();
+        tree->stats();
     }
     bool validateStructure() {
         return true;

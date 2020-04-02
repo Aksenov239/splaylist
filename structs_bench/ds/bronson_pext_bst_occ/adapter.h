@@ -56,6 +56,8 @@ public:
     void deinitThread(const int tid) {
         tree->deinitThread(tid);
     }
+    void setCops(const int tid, int cops) {
+    }
 
     bool contains(const int tid, const K& key) {
         return tree->find(tid, key) != getNoValue();

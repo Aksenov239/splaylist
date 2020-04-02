@@ -119,8 +119,15 @@ namespace thread_pinning {
     }
 
     static void doBindThread(const int tid, const int nprocessors) {
-        if (sched_setaffinity(0, CPU_ALLOC_SIZE(nprocessors), cpusets[tid%nprocessors])) { // bind thread to core
-            cout<<"ERROR: could not bind thread "<<tid<<" to cpuset "<<cpusets[tid%nprocessors]<<std::endl;
+//        if (sched_setaffinity(0, CPU_ALLOC_SIZE(nprocessors), cpusets[tid%nprocessors])) { // bind thread to core
+//            cout<<"ERROR: could not bind thread "<<tid<<" to cpuset "<<cpusets[tid%nprocessors]<<std::endl;
+//            exit(-1);
+//        }
+        cpu_set_t cpuset;
+        CPU_ZERO(&cpuset);
+        CPU_SET(tid, &cpuset);
+        if (sched_setaffinity(0, CPU_ALLOC_SIZE(nprocessors), &cpuset)) { // bind thread to core
+            cout<<"ERROR: could not bind thread "<<tid<<std::endl;
             exit(-1);
         }
     }

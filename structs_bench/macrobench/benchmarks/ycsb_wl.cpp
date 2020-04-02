@@ -30,8 +30,8 @@ RC ycsb_wl::init() {
     }
     init_schema(path);
 
-    init_table_parallel();
-    //	init_table();
+    //init_table_parallel();
+    init_table();
     return RCOK;
 }
 
@@ -138,7 +138,7 @@ void ycsb_wl::init_table_parallel() {
 //    RLU_INIT(RLU_TYPE_FINE_GRAINED, 1);
     for (UInt32 i = 0; i<g_init_parallelism /*- 1*/; i++)
         pthread_create(&p_thds[i], NULL, threadInitTable, this);
-    /*threadInitTable(this);*/
+/*    threadInitTable(this);*/
 
     for (uint32_t i = 0; i<g_init_parallelism /*- 1*/; i++) {
         int rc = pthread_join(p_thds[i], NULL);

@@ -70,7 +70,7 @@ public:
         setbench_error("rangeQuery not implemented for this data structure");
     }
     void printSummary() {
-        tree->stats();
+//        tree->stats();
     }
     bool validateStructure() {
         return true;

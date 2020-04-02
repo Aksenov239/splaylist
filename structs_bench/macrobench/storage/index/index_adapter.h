@@ -125,12 +125,16 @@ public:
             setbench_error("g_thread_cnt > MAX_THREADS_POW2");
         }
         index = new ds_adapter<KEY_TYPE, VALUE_TYPE>(MAX_THREADS_POW2, minKey, maxKey, reservedValue, rngs);
+        std::cerr << "Setting cops: " << g_cops << std::endl;
+        index->setCops(0, g_cops);
         this->table = table;
         
         return RCOK;
     }
     
     RC index_insert(KEY_TYPE key, VALUE_TYPE newItem, int part_id = -1) {
+        key = max(key, (uint64_t)1);
+        key = min(key, std::numeric_limits<KEY_TYPE>::max() - 1);
 #if defined USE_RANGE_QUERIES
         auto oldVal = index->insertIfAbsent(tid, key, newItem);
 //#ifndef NDEBUG
@@ -158,6 +162,8 @@ public:
         return RCOK;
     }
     RC index_read(KEY_TYPE key, VALUE_TYPE * item, int part_id = -1, int thd_id = 0) {
+        key = max(key, (uint64_t)1);
+        key = min(key, std::numeric_limits<KEY_TYPE>::max() - 1);
 //        lock_key(key);
             *item = (VALUE_TYPE) index->find(tid, key);
 //        unlock_key(key);

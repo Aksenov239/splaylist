@@ -29,11 +29,11 @@ struct CBTreeNode {
 };
 
 const int PADDING_SIZE = 128;
-struct MyCounter {
+struct MyLength {
 
     long long value;
     volatile char pad[PADDING_SIZE];
-    MyCounter() {
+    MyLength() {
         value = 0;
     }
 };
@@ -53,11 +53,11 @@ class CBTree {
     sval_t insertIfAbsent(const int tid, skey_t key, sval_t val) {
         NodeTypePtr parent_node;
         //pthread_rwlock_wrlock(&lock);
-        lock.exclusiveLock();
+        std::unique_lock<std::shared_timed_mutex> lock(mutex_);
         NodeTypePtr node = search(tid, key, &parent_node);
         if (node != nullptr)
         {
-            lock.exclusiveUnlock();
+            //pthread_rwlock_unlock(&lock);
             return node->value;
         }
         else {
@@ -67,35 +67,27 @@ class CBTree {
             else
                 parent_node->right = node;
             node->w++;
-            lock.exclusiveUnlock();
+            //pthread_rwlock_unlock(&lock);
             return this->no_value;
         }
     }
     sval_t find(const int tid, skey_t x) {
-        nops[tid].value++;
         NodeTypePtr node;
-        if (tid == 1 && nops[tid].value == cops)
-        {
-            //std::unique_lock<std::shared_timed_mutex> lock1(mutex_);
-            //pthread_rwlock_wrlock(&lock);
-            lock.exclusiveLock();
-            //clh_rwlock_writelock(&lock);
-            node = search(tid, x, nullptr);
-            lock.exclusiveUnlock();
-            //clh_rwlock_writeunlock(&lock);
-            //pthread_rwlock_unlock(&lock);
-            nops[tid].value = 0;
-        }
-        else
-        {
-            //std::shared_lock<std::shared_timed_mutex> lock1(mutex_);
-            lock.sharedLock();
-            //clh_rwlock_readlock(&lock);
-            //pthread_rwlock_rdlock(&lock);
+        if (warmup) {
+            if (tid == 1)
+            {
+                lock.exclusiveLock();
+                node = search(tid, x, nullptr);
+                lock.exclusiveUnlock();
+            }
+            else
+            {
+                lock.sharedLock();
+                node = search_no_restructure(tid, x);
+                lock.sharedUnlock();
+            }
+        } else {
             node = search_no_restructure(tid, x);
-            lock.sharedUnlock();
-            //clh_rwlock_readunlock(&lock);
-            //pthread_rwlock_unlock(&lock);
         }
         if (node != nullptr)
             return node->value;
@@ -104,21 +96,18 @@ class CBTree {
     long long getLength(const int tid) {
         return length[tid].value;
     }
-    void setCops(int _cops) {
-        cops = _cops;
+    void warmupEnd() {
+        warmup = false;
     }
     void stats() {
         stats(root);
         cout << " -------- " << endl;
     }
     private:
-    MyCounter length[100];
-    MyCounter nops[100];
-    int cops;
+    MyLength length[100];
     std::shared_timed_mutex mutex_;
-    //pthread_rwlock_t lock;
     DCLCRWLock lock;
-    //clh_rwlock_t lock;
+    bool warmup = true;
     typedef CBTreeNode<skey_t, sval_t> NodeType;
     typedef NodeType* NodeTypePtr;
     const skey_t max_key;

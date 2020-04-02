@@ -55,6 +55,9 @@ void parser(int argc, char * argv[]) {
             g_thr_pinning_policy = string(argv[++i]);
             std::cout<<"g_thr_pinning_policy="<<g_thr_pinning_policy<<std::endl;
         }
+        else if (strcmp(argv[i], "-cops") == 0) {
+            g_cops = atoi(argv[++i]);
+        }
         else if (argv[i][1]=='a') g_part_alloc = atoi(&argv[i][2]);
         else if (argv[i][1]=='m') g_mem_pad = atoi(&argv[i][2]);
         else if (argv[i][1]=='q') g_query_intvl = atoi(&argv[i][2]);

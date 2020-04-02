@@ -141,7 +141,6 @@ void workload::index_insert(Index * index, uint64_t key, row_t * row, int64_t pa
 	m_item->type = DT_row;
 	m_item->location = row;
 	m_item->valid = true;
-
     RC result = index->index_insert(key, m_item, pid);
     assert(result == RCOK);
 }
