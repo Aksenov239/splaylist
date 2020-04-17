@@ -18,14 +18,14 @@ labels = ["Skip-list",
           "CBTree $\\frac{1}{1000}$", "CBTree $\\frac{1}{100}$", "CBTree $\\frac{1}{10}$",
           "CBTree Fair $\\frac{1}{1000p}$", "CBTree Fair $\\frac{1}{100p}$", "CBTree Fair $\\frac{1}{100p}$"]
 
-prefix = "./results_zipf/"
-filenames = ["flexlist_1000t", "cbtree_1000", "cbtree_fair_1000t"]
-labels = ["Splay-list", "CBTree Unfair", "CBTree Fair"]
+prefix = "./results_10s_5x_submission/" #"./results_10s_10x_100_100_rebuttal/"
+filenames = ["flexlist_100t", "skiplist", "cbtree_100", "cbtree_fair_100t"]
+labels = ["Splay-list", "Skip-list", "CBTree Unfair", "CBTree Fair"]
 
 threads = [1, 2, 4, 8, 10, 20, 30, 40, 50, 60, 70]
 #threads = [1, 2, 4, 10, 30, 50, 70]
 string_threads = [str(thr) for thr in threads]
-workloads = ["90/10", "95/5", "99/1", "zipf/1"]
+workloads = ["90/10", "95/5", "99/1", "100/100", "zipf/1"]
 
 class Stats:
     def __init__(self):
@@ -104,6 +104,8 @@ for workload in workloads:
                 continue
             stats[workload][num].ops[filename] /= stats[workload][num].count[filename]
             y[filename].append(stats[workload][num].ops[filename] / (1000000.0))        
+#            if num == "70":
+#                print(workload + " " + filename + " " + str(y[filename][-1]))
 
     if no_data:
         continue

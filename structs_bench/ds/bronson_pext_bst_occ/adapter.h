@@ -88,6 +88,9 @@ public:
                  <<(sizeof(NODE_T))
                  <<std::endl;
     }
+    int getPathsLength(const int tid) {
+        return 0;
+    }
 
 #ifdef USE_TREE_STATS
     class NodeHandler {

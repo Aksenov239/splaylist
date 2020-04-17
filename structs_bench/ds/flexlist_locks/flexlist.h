@@ -593,6 +593,7 @@ Node<K, V>* FlexList<K, V, RecordManager>::getRoot() {
 template <typename K, typename V, class RecordManager>
 bool FlexList<K, V, RecordManager>::find(const int tid, const K& key, Node<K, V>*& pred, Node<K, V>*& succ) {
     //std::cout <<"find\n";
+//    std::cout << key << " " << sumLengths[tid].value << std::endl;
     pred = head;
     succ = (head->next[MAX_LEVEL]);
     for (int level = MAX_LEVEL - 1; level >= zeroLevel; level--) {

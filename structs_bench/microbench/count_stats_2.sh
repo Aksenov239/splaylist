@@ -10,6 +10,29 @@ seconds=(10)
 prefill=100000
 yx=(1 5 10)
 thr=(1 2 4 8 10 20 30 40 50 60 70)
+for((cnt=0;cnt<10;cnt++)) 
+do
+    for y in "${yx[@]}" 
+    do
+        for threads in "${thr[@]}" 
+        do
+            for s in "${seconds[@]}"
+            do
+                x=$((100-y))
+                echo "starting to count skiplist x=$x, y=$y, threads=$threads, secs=$s"
+                cops=$((100*threads))
+                # no adjustment
+                numactl --interleave=all ./bin/ubench_skiplist_locks.alloc_new.reclaim_none.pool_none.out prefill $prefill secs $s presecs 0 x $x y $y cops $cops threads $threads >> results/skiplist
+            done        
+        done
+    done
+done
+
+seconds=(10)
+prefill=100000
+#yx=(1 5 10)
+yx=(100)
+thr=(1 2 4 8 10 20 30 40 50 60 70)
 #thr=(1)
 #thr=(1 2)
 for((cnt=0;cnt<10;cnt++)) 
@@ -20,11 +43,11 @@ do
         do
             for s in "${seconds[@]}"
             do
-                x=$((100-y))
+                x=$((100)) #$((100-y))
                 echo "starting to count x=$x, y=$y, threads=$threads, secs=$s"
                 cops=$((100*threads))
                 # no adjustment
-#                numactl --interleave=all ./bin/ubench_skiplist_locks.alloc_new.reclaim_none.pool_none.out prefill $prefill secs $s presecs 0 x $x y $y cops $cops threads $threads >> results/skiplist
+                numactl --interleave=all ./bin/ubench_skiplist_locks.alloc_new.reclaim_none.pool_none.out prefill $prefill secs $s presecs 0 x $x y $y cops $cops threads $threads >> results/skiplist
 #                numactl --interleave=all ./bin/ubench_cbtree-ideal.alloc_new.reclaim_none.pool_none.out prefill $prefill secs $s presecs 0 x $x y $y cops $cops threads $threads >> results/tree
 
                 # warmup + contains
