@@ -49,6 +49,8 @@ void task(int j) {
                 is_ok = false;
                 my_lock.unlock();
             }
+        } else {
+          skipList->insertIfAbsent(j, key, KEY_TO_VALUE(key));
         }
     }
 }
@@ -96,10 +98,11 @@ int main(int argc, char **argv) {
     cin >> M;
     operations.resize(NUM_THREADS, vector<pair<int, long long> >(0));
     for (int i = 0; i < M; i++) {
+        int tp;
         int th;
         int key = 0;
-        cin >> th >> key;
-        operations[th].push_back(make_pair(0, key));
+        cin >> tp >> th >> key;
+        operations[th].push_back(make_pair(tp, key));
     }
     thread a[NUM_THREADS];
     for (int i = 0; i < NUM_THREADS; i++) {

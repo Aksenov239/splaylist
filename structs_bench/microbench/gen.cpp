@@ -7,9 +7,9 @@ const int MAX_KEY = 10000;
 
 using namespace std;
 
-const int OPERATIONS = 4000;
+const int OPERATIONS = 100;
 const int THREAD_KEYS = 10000;
-const int PREFILL = 2000;
+const int PREFILL = 30;
 
 vector<vector<pair<int, long long> > > operations;
 
@@ -18,7 +18,7 @@ int genrand() {
     return (rand() % 30000) * 30000 + rand() % 30000;
 }
 
-const int NUM_THREADS = 4;
+const int NUM_THREADS = 2;
 const double PC_Q = 0.01, PC_N = 0.5;
 
 int main(int argc, char **argv) {
@@ -43,7 +43,7 @@ int main(int argc, char **argv) {
     int high_size = (1 + int(keys.size() * PC_N));
     cout << OPERATIONS << "\n";
     for (int i = 0; i < OPERATIONS; i++) {
-        int op_type = 0;
+        int op_type = genrand() % 2;
         int th = genrand() % NUM_THREADS;
         int key = 0;
 //        if (genrand() < MAX_RAND * PC_Q) {
@@ -51,8 +51,13 @@ int main(int argc, char **argv) {
 //        } else {
 //            key = keys[genrand() % (int(keys.size()) - high_size) + high_size];
 //        }
-        key = keys[genrand() % int(keys.size())];
-        cout << th << " " << key << "\n";
+        if (op_type == 1)
+            key = genrand() % MAX_KEY;
+        else
+            key = keys[genrand() % int(keys.size())];
+        if (key == 0)
+            key = 1;
+        cout << op_type << " " << th << " " << key << "\n";
         operations[th].push_back(make_pair(op_type, key));
     }
 }

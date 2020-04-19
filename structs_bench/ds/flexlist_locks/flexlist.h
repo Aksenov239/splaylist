@@ -42,6 +42,7 @@ class FlexList {
 private:
     volatile char pad_5[PADDING_SIZE];
     int UPDATE_NUM = 1;
+    int kekerok = -1;
     volatile char pad_4[PADDING_SIZE];
     MyLength sumLengths[MAX_THREADS + 1];
     volatile char pad_3[PADDING_SIZE];
@@ -234,9 +235,17 @@ void FlexList<K, V, RecordManager>::update(const int tid, const K& key) {
 
 template <typename K, typename V, class RecordManager>
 void FlexList<K, V, RecordManager>::insert(const int tid, const int h, const K & key, const V & value, Node<K, V> *pred, Node<K, V> *predpred, int curAccess) {
+   // if (key == 5337) {
+   //    std::cout << "Hay guy!\n";
+   //    // kekerok = h;
+   // }
    Node<K, V>* cur = createNode(tid, h, key, value);
    cur->next[h] = pred->next[h];
    acquireLock(&(cur->lock));
+   // if (key == 5337) {
+   //      std::cout << "zeroLevel\n";
+   //    kekerok = pred->zeroLevel;
+   // }
    pred->next[h] = cur;
    cur->selfhits++;
    if (h + 1 < MAX_LEVEL && h < (predpred->topLevel) && (predpred->next[h]) == cur &&
@@ -382,10 +391,10 @@ V FlexList<K, V, RecordManager>::updateWithInsert(const int tid, const K & key, 
             pred = cur;
             cur = cur->next[h];
         }
-       if (h == curZeroLevel && !ok) {
-          insert(tid, h, key, value, pred, predpred, curAccess);
-          break;
-       }
+        if (h == curZeroLevel && zeroLevel == curZeroLevel && !ok) {
+           insert(tid, h, key, value, pred, predpred, curAccess);
+           break;
+        }
         if (predpred != pred)
             releaseLock(&(predpred->lock));
         if (ok) {
@@ -393,7 +402,9 @@ V FlexList<K, V, RecordManager>::updateWithInsert(const int tid, const K & key, 
             //std::cout << "endinsert\n";
             return noValue;
         }
-
+        if (h == curZeroLevel) {
+            pred->hits[h]++;
+        }
     }
     releaseLock(&(pred->lock));
     //std::cout << "endinsert\n";
@@ -492,54 +503,64 @@ V FlexList<K, V, RecordManager>::insertIfAbsent(const int tid, const K &key, con
 
 template <typename K, typename V, class RecordManager>
 bool FlexList<K, V, RecordManager>::validate() {
-//    for (int h = zeroLevel; h < MAX_LEVEL - 1; h++) {
-//        Node<K, V>* cur = head;
-//        long long sum = 0, val = 0;
-//        while (cur != tail) {
-//            if (cur->topLevel > h) {
-//                if (sum != val) {
-//                    std::cout << "Bad sum of hits!\n";
-//                    std::cout << "tL: " << (cur->topLevel) << " lv: " << h << ", zL " << zeroLevel << ", " << (cur->key) << "\n";
-//                    return false;
-//                }
-//                val = getHits(cur, h + 1);
-//                sum = 0;
-//            } else if (val - sum > (accessCounter / (1 << (MAX_LEVEL - 1 - h - 1)))) {
-//                std::cout << "Wrong ascent condition!\n";
-//                std::cout << "key" << (cur->key) << " " << val - sum << " " << "level" << h << " " << zeroLevel << " " << accessCounter << " " << (1 << (MAX_LEVEL - 1 - h - 1)) << std::endl;
-//                return false;
-//            }
-//            if ((cur->topLevel) < h) {
-//                std::cout << "Wrong level of element!\n";
-//                return false;
-//            }
-//            if ((cur->zeroLevel) > (cur->topLevel)) {
-//                std::cout << "Wrong level of element!\n";
-//                return false;
-//            }
-//            sum += getHits(cur, h);
-//            Node<K, V>* cnext = NULL;
-//            if ((cur->zeroLevel) > h) {
-//                if ((cur->next[cur->zeroLevel]) == NULL) {
-//                    return false;
-//                }
-//                cnext = cur->next[cur->zeroLevel];
-//            } else {
-//                if ((cur->next[h]) == NULL) {
-//                    return false;
-//                }
-//                cnext = (cur->next[h]);
-//            }
-//            if ((cur->key) >= (cnext->key))
-//                return false;
-//            cur = cnext;
-//        }
-//        if (sum != val) {
-//            std::cout << "Bad sum on level! " << h << "\n";
-//            return false;
-//        }
-//    }
-//    std::cout << "You are great!\n";
+   for (int h = zeroLevel; h < MAX_LEVEL - 1; h++) {
+       Node<K, V>* cur = head;
+       long long sum = 0, val = 0;
+       while (cur != tail) {
+           if (cur->topLevel > h) {
+               if (sum != val) {
+                   std::cout << accessCounter << "\n";
+                   printDebuggingDetails();
+                   std::cout << "Bad sum of hits!\n";
+                   std::cout << "tL: " << (cur->topLevel) << " lv: " << h << ", zL " << zeroLevel << ", " << (cur->key) << "\n";
+                   return false;
+               }
+               val = getHits(cur, h + 1);
+               sum = 0;
+           } else if (val - sum > (accessCounter / (1 << (MAX_LEVEL - 1 - h - 1)))) {
+               printDebuggingDetails();
+               std::cout << "Wrong ascent condition!\n";
+               std::cout << "key" << (cur->key) << " " << val - sum << " " << "level" << h << " " << zeroLevel << " " << accessCounter << " " << (1 << (MAX_LEVEL - 1 - h - 1)) << std::endl;
+               return false;
+           }
+           if ((cur->topLevel) < h) {
+               printDebuggingDetails();
+               std::cout << "Wrong level of element!\n";
+               return false;
+           }
+           if ((cur->zeroLevel) > (cur->topLevel)) {
+               printDebuggingDetails();
+               std::cout << "Wrong level of element!\n";
+               return false;
+           }
+           sum += getHits(cur, h);
+           Node<K, V>* cnext = NULL;
+           if ((cur->zeroLevel) > h) {
+               if ((cur->next[cur->zeroLevel]) == NULL) {
+                   printDebuggingDetails();
+                   return false;
+               }
+               cnext = cur->next[cur->zeroLevel];
+           } else {
+               if ((cur->next[h]) == NULL) {
+                   printDebuggingDetails();
+                   return false;
+               }
+               cnext = (cur->next[h]);
+           }
+           if ((cur->key) >= (cnext->key)) {
+               printDebuggingDetails();
+               return false;
+           }
+           cur = cnext;
+       }
+       if (sum != val) {
+           printDebuggingDetails();
+           std::cout << "Bad sum on level! " << h << "\n";
+           return false;
+       }
+   }
+   std::cout << "You are great!\n";
     return true;
 }
 
@@ -557,24 +578,44 @@ void FlexList<K, V, RecordManager>::setCops(int cops) {
 
 template <typename K, typename V, class RecordManager>
 void FlexList<K, V, RecordManager>::printDebuggingDetails() {
-    // for (int h = zeroLevel; h <= MAX_LEVEL; h++) {
-    //     Node<K, V>* cur = head;
-    //     std::cout << h << ": ";
-    //     while (cur != tail) {
-    //         std::cout << (cur->key) << " ";
-    //         //std::cout << "(" << (cur->key) << ", " << getHits(cur, h) << ") ";
-    //         //std::cout << "tL: " << (cur->topLevel) << " lv: " << h << ", zL: " << zeroLevel << ") ";
-    //         Node<K, V>* cnext = NULL;
-    //         if ((cur->zeroLevel) > h) {
-    //             cnext = cur->next[cur->zeroLevel];
-    //         } else
-    //             cnext = (cur->next[h]);
-    //         if ((cur->key) >= (cnext->key))
-    //             exit(0);
-    //         cur = cnext;
-    //     }
-    //     std::cout << "\n";
-    // }
+    std::cout << "kekerok " << kekerok << "\n";
+    for (int h = zeroLevel; h <= MAX_LEVEL; h++) {
+        Node<K, V>* cur = head;
+        std::cout << h << ": ";
+        while (cur != tail) {
+            std::cout << (cur->key) << " ";
+            //std::cout << "(" << (cur->key) << ", " << getHits(cur, h) << ") ";
+            //std::cout << "tL: " << (cur->topLevel) << " lv: " << h << ", zL: " << zeroLevel << ") ";
+            Node<K, V>* cnext = NULL;
+            if ((cur->zeroLevel) > h) {
+                cnext = cur->next[cur->zeroLevel];
+            } else
+                cnext = (cur->next[h]);
+            if ((cur->key) >= (cnext->key))
+                exit(0);
+            cur = cnext;
+        }
+        std::cout << "\n";
+    }
+
+    for (int h = zeroLevel; h <= MAX_LEVEL; h++) {
+        Node<K, V>* cur = head;
+        std::cout << h << ": ";
+        while (cur != tail) {
+            //std::cout << (cur->key) << " ";
+            std::cout << getHits(cur, h) << " ";
+            //std::cout << "tL: " << (cur->topLevel) << " lv: " << h << ", zL: " << zeroLevel << ") ";
+            Node<K, V>* cnext = NULL;
+            if ((cur->zeroLevel) > h) {
+                cnext = cur->next[cur->zeroLevel];
+            } else
+                cnext = (cur->next[h]);
+            if ((cur->key) >= (cnext->key))
+                exit(0);
+            cur = cnext;
+        }
+        std::cout << "\n";
+    }
     return;
 }
 
