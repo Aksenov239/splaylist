@@ -12,12 +12,18 @@ const int PADDING_SIZE = 128;
 template<typename K, typename V>
 struct Node {
     volatile K key;
+    volatile char pad[PADDING_SIZE];
     volatile V value;
+    volatile char pad2[PADDING_SIZE];
     volatile int zeroLevel;
+    volatile char pad3[PADDING_SIZE];
     volatile int lock;
+    volatile char pad4[PADDING_SIZE];
     volatile int topLevel;
+    volatile char pad5[PADDING_SIZE];
     volatile int selfhits;
     Node<K, V>* volatile next[MAX_LEVEL + 1];
+    volatile char pad6[PADDING_SIZE];
     volatile int hits[MAX_LEVEL + 1];
 };
 
@@ -75,6 +81,8 @@ public:
     bool contains(const int tid, const K &key);
 
     V insertIfAbsent(const int tid, const K &key, const V &value);
+
+    V erase(const int tid, const K &key);
 
     bool validate();
 
@@ -138,7 +146,7 @@ void FlexList<K, V, RecordManager>::update(const int tid, const K& key) {
             (pred->hits[h])++;
             continue;
         }
-        bool ok = false;
+        bool ok = false;                
         while ((cur->key) <= key) {
             if (cur->zeroLevel > h) {
                 acquireLock(&(cur->lock));
@@ -400,7 +408,7 @@ V FlexList<K, V, RecordManager>::updateWithInsert(const int tid, const K & key, 
         if (ok) {
             releaseLock(&(pred->lock));
             //std::cout << "endinsert\n";
-            return noValue;
+            return cur->value;
         }
         if (h == curZeroLevel) {
             pred->hits[h]++;
@@ -408,7 +416,7 @@ V FlexList<K, V, RecordManager>::updateWithInsert(const int tid, const K & key, 
     }
     releaseLock(&(pred->lock));
     //std::cout << "endinsert\n";
-    return value;
+    return noValue;
 }
 
 template <typename K, typename V, class RecordManager>
@@ -471,7 +479,7 @@ bool FlexList<K, V, RecordManager>::contains(const int tid, const K &key) {
             update(tid, key);
             update_counter[tid].value = 0;
         }
-        return true;
+        return succ->value != noValue;
     }
     return false;
 }
@@ -498,7 +506,49 @@ template <typename K, typename V, class RecordManager>
 V FlexList<K, V, RecordManager>::insertIfAbsent(const int tid, const K &key, const V &value) {
 //    std::cout << "Insert: " << key << std::endl;
     //std::cout << tid << "insert\n";
+//    long long save = sumLengths[tid].value;
+
+    Node<K, V>* pred;
+    Node<K, V>* succ;
+    if (find(tid, key, pred, succ)) {
+        V v = (succ->value);
+        update_counter[tid].value++;
+        if (update_counter[tid].value == UPDATE_NUM) {
+            update(tid, key);
+            update_counter[tid].value = 0;
+        }
+        while (v == noValue &&
+            !__sync_bool_compare_and_swap(&(succ->value), noValue, value)) {
+            v = succ->value;
+        }
+//        sumLengths[tid].value = save;
+        return v;
+    }
+//    sumLengths[tid].value = save;
     return updateWithInsert(tid, key, value);
+}
+
+template <typename K, typename V, class RecordManager>
+V FlexList<K, V, RecordManager>::erase(const int tid, const K &key) {
+//    long long save = sumLengths[tid].value;
+    Node<K, V>* pred;
+    Node<K, V>* succ;
+    if (find(tid, key, pred, succ)) {
+        V v = (succ->value);
+        update_counter[tid].value++;
+        if (update_counter[tid].value == UPDATE_NUM) {
+            update(tid, key);
+            update_counter[tid].value = 0;
+        }
+        while (v != noValue &&
+            !__sync_bool_compare_and_swap(&(succ->value), v, noValue)) {
+            v = succ->value;
+        }
+//        sumLengths[tid].value = save;
+        return v;
+    }
+//    sumLengths[tid].value = save;
+    return noValue;
 }
 
 template <typename K, typename V, class RecordManager>

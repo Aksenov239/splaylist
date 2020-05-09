@@ -18,8 +18,8 @@ labels = ["Skip-list",
           "CBTree $\\frac{1}{1000}$", "CBTree $\\frac{1}{100}$", "CBTree $\\frac{1}{10}$",
           "CBTree Fair $\\frac{1}{1000p}$", "CBTree Fair $\\frac{1}{100p}$", "CBTree Fair $\\frac{1}{100p}$"]
 
-prefix = "./results_10s_5x_submission/" #"./results_10s_10x_100_100_rebuttal/"
-filenames = ["flexlist_100t", "skiplist", "cbtree_100", "cbtree_fair_100t"]
+prefix = "./01.05.2020-results_zipf/" #"./results_10s_10x_100_100_rebuttal/"
+filenames = ["flexlist_10t", "skiplist_locks", "cbtree_10", "cbtree_fair_10t"]
 labels = ["Splay-list", "Skip-list", "CBTree Unfair", "CBTree Fair"]
 
 threads = [1, 2, 4, 8, 10, 20, 30, 40, 50, 60, 70]

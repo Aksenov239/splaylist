@@ -9,16 +9,24 @@
 #include "DCLCRWLock.h"
 //#include "CLHRWLock.h"
 
+const int PADDING_SIZE = 128;
+
 using namespace std;
 
 template <typename K, typename V>
 struct CBTreeNode {
     K key;
+    volatile char pad[PADDING_SIZE];
     V value;
+    volatile char pad1[PADDING_SIZE];
     CBTreeNode* left;
+    volatile char pad2[PADDING_SIZE];
     CBTreeNode* right;
+    volatile char pad3[PADDING_SIZE];
     CBTreeNode* parent;
+    volatile char pad4[PADDING_SIZE];
     long long w;
+    volatile char pad5[PADDING_SIZE];
     CBTreeNode(K key, V value): key(key), value(value){
         left = right = parent = nullptr;
         w = 0;
@@ -28,7 +36,6 @@ struct CBTreeNode {
     }
 };
 
-const int PADDING_SIZE = 128;
 struct MyCounter {
 
     long long value;
@@ -53,22 +60,27 @@ class CBTree {
     sval_t insertIfAbsent(const int tid, skey_t key, sval_t val) {
         NodeTypePtr parent_node;
         //pthread_rwlock_wrlock(&lock);
-        lock.exclusiveLock();
-        NodeTypePtr node = search(tid, key, &parent_node);
-        if (node != nullptr)
-        {
-            lock.exclusiveUnlock();
-            return node->value;
-        }
-        else {
-            node = new NodeType(key, val);
-            if (less(key, parent_node))
-                parent_node->left = node;
-            else
-                parent_node->right = node;
-            node->w++;
-            lock.exclusiveUnlock();
-            return this->no_value;
+        sval_t v = find(tid, key);
+        if (v == this->no_value) {
+            lock.exclusiveLock();
+            NodeTypePtr node = search(tid, key, &parent_node);
+            if (node != nullptr)
+            {
+                lock.exclusiveUnlock();
+                return node->value;
+            }
+            else {
+                node = new NodeType(key, val);
+                if (less(key, parent_node))
+                    parent_node->left = node;
+                else
+                    parent_node->right = node;
+                node->w++;
+                lock.exclusiveUnlock();
+                return this->no_value;
+            }
+        } else {
+            return v;
         }
     }
     sval_t find(const int tid, skey_t x) {

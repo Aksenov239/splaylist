@@ -13,11 +13,11 @@
 #ifdef USE_TREE_STATS
 #   include "tree_stats.h"
 #endif
-#include "flexlist.h"
+#include "skiplist.h"
 //TODO: understand about get into receive manager
 
 #define RECORD_MANAGER_T record_manager<Reclaim, Alloc, Pool, Node<K, V>>
-#define DATA_STRUCTURE_T FlexList<K, V, RECORD_MANAGER_T>
+#define DATA_STRUCTURE_T SkipList<K, V, RECORD_MANAGER_T>
 
 
 template <typename K, typename V, class Reclaim = reclaimer_debra<K>, class Alloc = allocator_new<K>, class Pool = pool_none<K>>
@@ -44,14 +44,18 @@ public:
         return 0;
     }
 
+    long long getPathsLength(const int tid) {
+        return ds->getPathsLength(tid);
+    }
+
     void initThread(const int tid) {
         ds->initThread(tid);
     }
     void deinitThread(const int tid) {
         ds->deinitThread(tid);
     }
+
     void setCops(const int tid, int cops) {
-        ds->setCops(cops);
     }
 
     void warmupEnd() {
@@ -70,11 +74,7 @@ public:
     }
 
     V find(const int tid, const K& key) {
-        return ds->qfind(tid, key);
-    }
-
-    long long getPathsLength(const int tid) {
-        return ds->getPathsLength(tid);
+        return ds->find(tid, key);
     }
 
     bool contains(const int tid, const K& key) {
@@ -89,6 +89,7 @@ public:
     bool validateStructure() {
         return ds->validate();
     }
+
     int getHeight() {
         return ds->getHeight();
     }

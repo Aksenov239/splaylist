@@ -5,8 +5,8 @@
 #include <bits/stdc++.h>
 #include <unordered_set>
 #include "locks_impl.h"
-#ifndef LOCK_BASED_SKIP_LIST_SKIP_LIST_H
-#define LOCK_BASED_SKIP_LIST_SKIP_LIST_H
+#ifndef LOCK_BASED_LAZY_SKIP_LIST_H
+#define LOCK_BASED_LAZY_SKIP_LIST_H
 const int MAX_LEVEL = 25;
 const int MAX_THREADS = 1000;
 const int PADDING_SIZE = 128;
@@ -38,17 +38,17 @@ public:
 template<typename K, typename V>
 struct Node {
     K key;
-//    volatile char pad[PADDING_SIZE];
+    volatile char pad1[PADDING_SIZE];
     V value;
-//    volatile char pad2[PADDING_SIZE];
+    volatile char pad2[PADDING_SIZE];
     bool mark;
-//    volatile char pad3[PADDING_SIZE];
+    volatile char pad3[PADDING_SIZE];
     bool fullyLinked;
-//    volatile char pad4[PADDING_SIZE];
+    volatile char pad4[PADDING_SIZE];
     volatile int lock;
-//    volatile char pad5[PADDING_SIZE];
+    volatile char pad5[PADDING_SIZE];
     int topLevel;
-//    volatile char pad6[PADDING_SIZE];        
+    volatile char pad6[PADDING_SIZE];
     Node<K, V>* next[MAX_LEVEL + 1];
 };
 
@@ -227,7 +227,12 @@ V SkipList<K, V, RecordManager>::insertIfAbsent(const int tid, const K &key, con
             Node<K, V>* found = succs[pr.first];
             if (!(found->mark)) {
                 while (!(found->fullyLinked)) {}
-                return pr.second;
+                V v = found->value;
+                while (v == noValue &&
+                    !__sync_bool_compare_and_swap(&(found->value), noValue, value)) {
+                    v = found->value;
+                }
+                return v;
             }
             continue;
         }
@@ -274,58 +279,17 @@ V SkipList<K, V, RecordManager>::erase(const int tid, const K &key) {
     //TODO: retire for preds ans succs
     Node<K, V>* preds[MAX_LEVEL + 1];
     Node<K, V>* succs[MAX_LEVEL + 1];
-    bool isMarked = false;
-    Node<K, V>* victim = NULL;
-    int topLevel = -1;
-    while (true) {
-        auto pr = find(tid, key, preds, succs);
-        if (pr.first != -1) {
-            victim = succs[pr.first];
-        }
-        if (isMarked || (pr.first != -1 && pr.first == victim->topLevel && !victim->mark)) {
-            if (!isMarked) {
-                topLevel = victim->topLevel;
-                acquireLock(&(victim->lock));
-                if (victim->mark) {
-                    releaseLock(&(victim->lock));
-                    return noValue;
-                }
-                isMarked = true;
-                victim->mark = true;
-            }
-            int lockLevel = -1;
-            bool valid = true;
-            for (int level = 0; level <= topLevel; level++) {
-                Node<K, V>* pred = preds[level];
-                if (level == 0 || pred != preds[level - 1])
-                    acquireLock(&(pred->lock));
-                lockLevel = level;
-                valid = !pred->mark && ((pred->next[level]) == victim);
-                if (!valid)
-                    break;
-            }
-            if (!valid) {
-                for (int level = 0; level <= lockLevel; level++) {
-                    if (level == 0 || preds[level] != preds[level - 1])
-                        releaseLock(&(preds[level]->lock));
-                }
-                continue;
-            }
-            for (int level = topLevel; level >= 0; level--) {
-                preds[level]->next[level] = victim->next[level];
-            }
-            for (int level = 0; level <= lockLevel; level++) {
-                if (level == 0 || preds[level] != preds[level - 1])
-                    releaseLock(&(preds[level]->lock));
-            }
-            releaseLock(&(victim->lock));
-            V value = (victim->value);
-            recordManager->retire(tid, victim);
-            return value;
-        } else {
-            return noValue;
-        }
+    auto pr = find(tid, key, preds, succs);
+    if (pr.first == -1) {
+        return noValue;
     }
+    Node<K, V>* target = succs[pr.first];
+    V v = target->value;
+    while (v != noValue &&
+        !__sync_bool_compare_and_swap(&(target->value), v, noValue)) {
+        v = target->value;
+    }
+    return v;
 }
 
 template <typename K, typename V, class RecordManager>
@@ -406,7 +370,7 @@ int SkipList<K, V, RecordManager>::getHeight() {
 }
 
 
-#endif //LOCK_BASED_SKIP_LIST_SKIP_LIST_H
+#endif //LOCK_BASED_LAZY_SKIP_LIST_H
 
 
 

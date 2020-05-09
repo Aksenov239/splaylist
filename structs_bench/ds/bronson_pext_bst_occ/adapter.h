@@ -91,6 +91,9 @@ public:
     int getPathsLength(const int tid) {
         return 0;
     }
+    void warmupEnd() {
+    }
+
 
 #ifdef USE_TREE_STATS
     class NodeHandler {
