@@ -247,19 +247,14 @@ int main(int argc, char **argv) {
         sum_lengths += len[i + 1];
         sum_ops += ops[i + 1];
     }
-    cout.precision(10);
-    std::cout << "parameters:\n";
-    std::cout << "threads: " << num_threads << "\n";
-    std::cout << "zipf: " << zipf << "\n";
-    std::cout << "alpha: " << alpha << "\n";
-    std::cout << "x: " << x << "\n";
-    std::cout << "y: " << y << "\n";
-    std::cout << "prefill: " << prefill << "\n";
-    std::cout << "secs: " << seconds << "\n";
-    std::cout << "upd ops: " << cops << "\n";
-    std::cout << "ideal: " << ideal << "\n";
-    std::cout << "results:\n";
-    std::cout << "h: " << 0 /*(database->getHeight())*/ << ", ops: " << sum_ops << ", sumLengths: " << double(sum_lengths) / double(sum_ops) << "\n";
-    std::cout << "ops per sec: " << double(sum_ops) / double(seconds) << "\n\n";
+    std::cout << sum_ops << "\n";
+    vector<pair<int, int> > heights = database->getPairsKeyHeight();
+    vector<pair<int, int> > num_contains = database->getPairsKeyContains();
+    sort(heights.begin(), heights.end());
+    sort(num_contains.begin(), num_contains.end());
+    for (int i = 0; i < int(heights.size()); i++) {
+        assert(heights[i].first == num_contains[i].second);
+        std::cout << "key = " << heights[i].first << ", height = " << heights[i].second << ", contains = " << num_contains[i].second << "\n";
+    }
 }
 

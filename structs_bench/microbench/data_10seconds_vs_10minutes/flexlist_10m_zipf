@@ -1,0 +1,14 @@
+parameters:
+threads: 1
+zipf: 1
+alpha: 1
+x: 100
+y: 100
+prefill: 100000
+secs: 600
+upd ops: 100
+ideal: 0
+results:
+h: 0, ops: 2557189000, sumLengths: 14.46056181
+ops per sec: 4261981.667
+

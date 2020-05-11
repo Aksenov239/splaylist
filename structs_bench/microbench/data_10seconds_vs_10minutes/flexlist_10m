@@ -1,0 +1,42 @@
+parameters:
+threads: 1
+zipf: 0
+alpha: 0
+x: 99
+y: 1
+prefill: 100000
+secs: 600
+upd ops: 100
+ideal: 0
+results:
+h: 0, ops: 4910529000, sumLengths: 17.5943076
+ops per sec: 8184215
+
+parameters:
+threads: 1
+zipf: 0
+alpha: 0
+x: 95
+y: 5
+prefill: 100000
+secs: 600
+upd ops: 100
+ideal: 0
+results:
+h: 0, ops: 2642344000, sumLengths: 22.06096083
+ops per sec: 4403906.667
+
+parameters:
+threads: 1
+zipf: 0
+alpha: 0
+x: 90
+y: 10
+prefill: 100000
+secs: 600
+upd ops: 100
+ideal: 0
+results:
+h: 0, ops: 2178384000, sumLengths: 23.45354516
+ops per sec: 3630640
+

@@ -3,6 +3,8 @@
 //
 
 #include "locks_impl.h"
+#include <bits/stdc++.h>
+using namespace std;
 #ifndef LOCK_BASED_FLEX_LIST_FLEX_LIST_H
 #define LOCK_BASED_FLEX_LIST_FLEX_LIST_H
 const int MAX_LEVEL = 44;
@@ -22,6 +24,7 @@ struct Node {
     volatile int topLevel;
     volatile char pad5[PADDING_SIZE];
     volatile int selfhits;
+    volatile int contains;
     Node<K, V>* volatile next[MAX_LEVEL + 1];
     volatile char pad6[PADDING_SIZE];
     volatile int hits[MAX_LEVEL + 1];
@@ -97,6 +100,10 @@ public:
     long long getPathsLength(const int tid);
     int getHeight();
 
+    std::vector<pair<int, int> > getPairsKeyHeight();
+
+    std::vector<pair<int, int> > getPairsKeyContains();
+    
     Node<K, V>* getRoot();
 
 private:
@@ -107,6 +114,9 @@ private:
     void updateZeroLevel(Node<K, V> *curr);//This function supposes that curr is locked now
     int getHits(Node<K, V> *curr, int h);
 };
+
+
+
 
 template <typename K, typename V, class RecordManager>
 void FlexList<K, V, RecordManager>::updateZeroLevel(Node<K, V> *curr) {
@@ -436,6 +446,7 @@ Node<K, V>* FlexList<K, V, RecordManager>::createNode(const int tid, int h, cons
     node->lock = 0;
     node->zeroLevel = h;
     node->selfhits = 0;
+    node->contains = 0;
 
     for (int i = 0; i <= MAX_LEVEL; i++) {
         node->hits[i] = 0;
@@ -726,6 +737,7 @@ bool FlexList<K, V, RecordManager>::find(const int tid, const K& key, Node<K, V>
             }
         }
         if (succ != NULL && key == succ->key) {
+            succ->contains++;
             return true;
         }
     }
@@ -748,6 +760,43 @@ int FlexList<K, V, RecordManager>::getHeight() {
     return MAX_LEVEL - 1 - zeroLevel;
 }
 
+template <typename K, typename V, class RecordManager>
+std::vector<pair<int, int> > FlexList<K, V, RecordManager>::getPairsKeyHeight() {
+    vector<pair<int, int> > key_height;
+    for (int h = zeroLevel; h <= zeroLevel; h++) {
+        Node<K, V>* cur = head;
+        while (cur != tail) {
+            Node<K, V>* cnext = NULL;
+            if ((cur->zeroLevel) > h) {
+                cnext = cur->next[cur->zeroLevel];
+            } else
+                cnext = (cur->next[h]);
+            if (cur != head)
+                key_height.push_back(make_pair((cur->key), (cur->topLevel) - zeroLevel + 1));
+            cur = cnext;
+        }
+    }
+    return key_height;
+}
+
+template <typename K, typename V, class RecordManager>
+std::vector<pair<int, int> > FlexList<K, V, RecordManager>::getPairsKeyContains() {
+    vector<pair<int, int> > key_contains;
+    for (int h = zeroLevel; h <= zeroLevel; h++) {
+        Node<K, V>* cur = head;
+        while (cur != tail) {
+            Node<K, V>* cnext = NULL;
+            if ((cur->zeroLevel) > h) {
+                cnext = cur->next[cur->zeroLevel];
+            } else
+                cnext = (cur->next[h]);
+            if (cur != head)
+                key_contains.push_back(make_pair((cur->key), (cur->contains)));
+            cur = cnext;
+        }
+    }
+    return key_contains;   
+}
 #endif //LOCK_BASED_FLEX_LIST_FLEX_LIST_H
 
 

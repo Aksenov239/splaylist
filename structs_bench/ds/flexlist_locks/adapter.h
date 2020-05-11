@@ -7,6 +7,9 @@
 
 #include <iostream>
 #include <csignal>
+#include <bits/stdc++.h>
+using namespace std;
+
 #include "errors.h"
 #include "random_fnv1a.h"
 #include "record_manager.h"
@@ -99,6 +102,13 @@ public:
                  <<std::endl;
     }
 
+    std::vector<pair<int, int> > getPairsKeyHeight() {
+        return ds->getPairsKeyHeight();
+    }
+
+    std::vector<pair<int, int> > getPairsKeyContains() {
+        return ds->getPairsKeyContains();
+    }
 #ifdef USE_TREE_STATS
     class NodeHandler {
     public:
