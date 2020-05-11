@@ -74,9 +74,9 @@ stats_$(1).alloc_$(2).reclaim_$(3).pool_$(4).out: dir_guard
 	$(GPP) statistics_height_contains.cpp -o $(bin_dir)/stats_$(1).alloc_$(2).reclaim_$(3).pool_$(4).out -I../ds/$1 -DDS_TYPENAME=$(1) -DALLOC_TYPE=$(2) -DRECLAIM_TYPE=$(3) -DPOOL_TYPE=$(4) $(FLAGS) $(LDFLAGS)
 # write_$(1).alloc_$(2).reclaim_$(3).pool_$(4).out: dir_guard
 # 	$(GPP) benchmark_write.cpp -o $(bin_dir)/write_$(1).alloc_$(2).reclaim_$(3).pool_$(4).out -I../ds/$1 -DDS_TYPENAME=$(1) -DALLOC_TYPE=$(2) -DRECLAIM_TYPE=$(3) -DPOOL_TYPE=$(4) $(FLAGS) $(LDFLAGS)
-# bench_$(1).alloc_$(2).reclaim_$(3).pool_$(4).out: dir_guard
-# 	$(GPP) benchmark.cpp -o $(bin_dir)/bench_$(1).alloc_$(2).reclaim_$(3).pool_$(4).out -I../ds/$1 -DDS_TYPENAME=$(1) -DALLOC_TYPE=$(2) -DRECLAIM_TYPE=$(3) -DPOOL_TYPE=$(4) $(FLAGS) $(LDFLAGS)
-all:: stats_$(1).alloc_$(2).reclaim_$(3).pool_$(4).out 
+bench_$(1).alloc_$(2).reclaim_$(3).pool_$(4).out: dir_guard
+	$(GPP) benchmark.cpp -o $(bin_dir)/bench_$(1).alloc_$(2).reclaim_$(3).pool_$(4).out -I../ds/$1 -DDS_TYPENAME=$(1) -DALLOC_TYPE=$(2) -DRECLAIM_TYPE=$(3) -DPOOL_TYPE=$(4) $(FLAGS) $(LDFLAGS)
+all:: stats_$(1).alloc_$(2).reclaim_$(3).pool_$(4).out bench_$(1).alloc_$(2).reclaim_$(3).pool_$(4).out
 endef
 
 #bench_$(1).alloc_$(2).reclaim_$(3).pool_$(4).out

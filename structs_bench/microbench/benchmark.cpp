@@ -248,18 +248,18 @@ int main(int argc, char **argv) {
         sum_ops += ops[i + 1];
     }
     cout.precision(10);
-    std::cout << "parameters:\n";
-    std::cout << "threads: " << num_threads << "\n";
-    std::cout << "zipf: " << zipf << "\n";
-    std::cout << "alpha: " << alpha << "\n";
-    std::cout << "x: " << x << "\n";
-    std::cout << "y: " << y << "\n";
-    std::cout << "prefill: " << prefill << "\n";
-    std::cout << "secs: " << seconds << "\n";
-    std::cout << "upd ops: " << cops << "\n";
-    std::cout << "ideal: " << ideal << "\n";
-    std::cout << "results:\n";
-    std::cout << "h: " << 0 /*(database->getHeight())*/ << ", ops: " << sum_ops << ", sumLengths: " << double(sum_lengths) / double(sum_ops) << "\n";
-    std::cout << "ops per sec: " << double(sum_ops) / double(seconds) << "\n\n";
+    // std::cout << "parameters:\n";
+    // std::cout << "threads: " << num_threads << "\n";
+    // std::cout << "zipf: " << zipf << "\n";
+    // std::cout << "alpha: " << alpha << "\n";
+    // std::cout << "x: " << x << "\n";
+    // std::cout << "y: " << y << "\n";
+    // std::cout << "prefill: " << prefill << "\n";
+    // std::cout << "secs: " << seconds << "\n";
+    // std::cout << "upd ops: " << cops << "\n";
+    // std::cout << "ideal: " << ideal << "\n";
+    // std::cout << "results:\n";
+    // std::cout << "h: " << 0 /*(database->getHeight())*/ << ", ops: " << sum_ops << ", sumLengths: " << double(sum_lengths) / double(sum_ops) << "\n";
+    std::cout << double(sum_ops) / double(seconds) << " + ";
 }
 
