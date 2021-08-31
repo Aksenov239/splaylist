@@ -29,9 +29,10 @@ make all
 #done
 
 seconds=(10)
-prefill=100000
+prefill=10000000
 yx=(1 5 10 100)
 thr=(1 2 4 8 10 20 30 40 50 60 70)
+#thr=(70)
 #thr=(1)
 #thr=(1 2)
 for((cnt=0;cnt<10;cnt++)) 
@@ -50,8 +51,8 @@ do
                 echo "starting to count x=$x, y=$y, threads=$threads, secs=$s"
                 cops=$((100*threads))
                 # no adjustment
-                LD_PRELOAD=../lib/jemalloc/lib/libjemalloc.so numactl --interleave=all ./bin/bench_skiplist_locks.alloc_new.reclaim_none.pool_none.out prefill $prefill secs $s presecs 0 x $x y $y cops $cops threads $threads >> results/skiplist_locks
-                LD_PRELOAD=../lib/jemalloc/lib/libjemalloc.so numactl --interleave=all ./bin/bench_skiplist_lazy.alloc_new.reclaim_none.pool_none.out prefill $prefill secs $s presecs 0 x $x y $y cops $cops threads $threads >> results/skiplist_lazy
+#                LD_PRELOAD=../lib/jemalloc/lib/libjemalloc.so numactl --interleave=all ./bin/bench_skiplist_locks.alloc_new.reclaim_none.pool_none.out prefill $prefill secs $s presecs 0 x $x y $y cops $cops threads $threads >> results/skiplist_locks
+#                LD_PRELOAD=../lib/jemalloc/lib/libjemalloc.so numactl --interleave=all ./bin/bench_skiplist_lazy.alloc_new.reclaim_none.pool_none.out prefill $prefill secs $s presecs 0 x $x y $y cops $cops threads $threads >> results/skiplist_lazy
 #                numactl --interleave=all ./bin/bench_cbtree-ideal.alloc_new.reclaim_none.pool_none.out prefill $prefill secs $s presecs 0 x $x y $y cops $cops threads $threads >> results/tree
 
                 # warmup + contains
@@ -59,28 +60,37 @@ do
 #                numactl --interleave=all ./bin/bench_flexlist-ideal.alloc_new.reclaim_none.pool_none.out prefill $prefill secs $s presecs $s x $x y $y cops $cops threads $threads >> results/flexlist_ideal
 
                 cops=$((1000*threads))
-                LD_PRELOAD=../lib/jemalloc/lib/libjemalloc.so numactl --interleave=all ./bin/bench_flexlist_locks.alloc_new.reclaim_none.pool_none.out prefill $prefill secs $s presecs 0 x $x y $y cops $cops threads $threads >> results/flexlist_1000t
-                LD_PRELOAD=../lib/jemalloc/lib/libjemalloc.so numactl --interleave=all ./bin/bench_cbtree-concurrent-fair.alloc_new.reclaim_none.pool_none.out prefill $prefill secs $s presecs 0 x $x y $y cops $cops threads $threads >> results/cbtree_fair_1000t
+#                LD_PRELOAD=../lib/jemalloc/lib/libjemalloc.so numactl --interleave=all ./bin/bench_flexlist_locks.alloc_new.reclaim_none.pool_none.out prefill $prefill secs $s presecs 0 x $x y $y cops $cops threads $threads >> results/flexlist_1000t
+#                LD_PRELOAD=../lib/jemalloc/lib/libjemalloc.so numactl --interleave=all ./bin/bench_cbtree-concurrent-fair.alloc_new.reclaim_none.pool_none.out prefill $prefill secs $s presecs 0 x $x y $y cops $cops threads $threads >> results/cbtree_fair_1000t
+                LD_PRELOAD=../lib/jemalloc/lib/libjemalloc.so numactl --interleave=all ./bin/bench_flexlist_locks_64_paddings.alloc_new.reclaim_none.pool_none.out prefill $prefill secs $s presecs 0 x $x y $y cops $cops threads $threads >> results/flexlist_64_1000t
+#                LD_PRELOAD=../lib/jemalloc/lib/libjemalloc.so numactl --interleave=all ./bin/bench_cbtree-concurrent-fair_64_paddings.alloc_new.reclaim_none.pool_none.out prefill $prefill secs $s presecs 0 x $x y $y cops $cops threads $threads >> results/cbtree_fair_64_1000t
 
                 cops=$((100*threads))
-                #./bin/bench_ideal_skiplist_locks.alloc_new.reclaim_none.pool_none.out prefill $prefill secs $s presecs $s x $x y $y cops $cops threads $threads ideal ideal >> results/ideal_x_${x}_y_${y}_threads_${threads}_cops_${cops}_secs_${s}                cops=$((100*threads))
-                LD_PRELOAD=../lib/jemalloc/lib/libjemalloc.so numactl --interleave=all ./bin/bench_flexlist_locks.alloc_new.reclaim_none.pool_none.out prefill $prefill secs $s presecs 0 x $x y $y cops $cops threads $threads >> results/flexlist_100t
-                LD_PRELOAD=../lib/jemalloc/lib/libjemalloc.so numactl --interleave=all ./bin/bench_cbtree-concurrent-fair.alloc_new.reclaim_none.pool_none.out prefill $prefill secs $s presecs 0 x $x y $y cops $cops threads $threads >> results/cbtree_fair_100t
+                #./bin/bench_ideal_skiplist_locks.alloc_new.reclaim_none.pool_none.out prefill $prefill secs $s presecs $s x $x y $y cops $cops threads $threads ideal ideal >> results/ideal_x_${x}_y_${y}_threads_${threads}_cops_${cops}_secs_${s}
+#                LD_PRELOAD=../lib/jemalloc/lib/libjemalloc.so numactl --interleave=all ./bin/bench_flexlist_locks.alloc_new.reclaim_none.pool_none.out prefill $prefill secs $s presecs 0 x $x y $y cops $cops threads $threads >> results/flexlist_100t
+#                LD_PRELOAD=../lib/jemalloc/lib/libjemalloc.so numactl --interleave=all ./bin/bench_cbtree-concurrent-fair.alloc_new.reclaim_none.pool_none.out prefill $prefill secs $s presecs 0 x $x y $y cops $cops threads $threads >> results/cbtree_fair_100t
+                LD_PRELOAD=../lib/jemalloc/lib/libjemalloc.so numactl --interleave=all ./bin/bench_flexlist_locks_64_paddings.alloc_new.reclaim_none.pool_none.out prefill $prefill secs $s presecs 0 x $x y $y cops $cops threads $threads >> results/flexlist_64_100t
+#                LD_PRELOAD=../lib/jemalloc/lib/libjemalloc.so numactl --interleave=all ./bin/bench_cbtree-concurrent-fair_64_paddings.alloc_new.reclaim_none.pool_none.out prefill $prefill secs $s presecs 0 x $x y $y cops $cops threads $threads >> results/cbtree_fair_64_100t
 
                 cops=$((10*threads))
-                LD_PRELOAD=../lib/jemalloc/lib/libjemalloc.so numactl --interleave=all ./bin/bench_flexlist_locks.alloc_new.reclaim_none.pool_none.out prefill $prefill secs $s presecs 0 x $x y $y cops $cops threads $threads >> results/flexlist_10t
-                LD_PRELOAD=../lib/jemalloc/lib/libjemalloc.so numactl --interleave=all ./bin/bench_cbtree-concurrent-fair.alloc_new.reclaim_none.pool_none.out prefill $prefill secs $s presecs 0 x $x y $y cops $cops threads $threads >> results/cbtree_fair_10t
+#                LD_PRELOAD=../lib/jemalloc/lib/libjemalloc.so numactl --interleave=all ./bin/bench_flexlist_locks.alloc_new.reclaim_none.pool_none.out prefill $prefill secs $s presecs 0 x $x y $y cops $cops threads $threads >> results/flexlist_10t
+#                LD_PRELOAD=../lib/jemalloc/lib/libjemalloc.so numactl --interleave=all ./bin/bench_cbtree-concurrent-fair.alloc_new.reclaim_none.pool_none.out prefill $prefill secs $s presecs 0 x $x y $y cops $cops threads $threads >> results/cbtree_fair_10t
+                LD_PRELOAD=../lib/jemalloc/lib/libjemalloc.so numactl --interleave=all ./bin/bench_flexlist_locks_64_paddings.alloc_new.reclaim_none.pool_none.out prefill $prefill secs $s presecs 0 x $x y $y cops $cops threads $threads >> results/flexlist_64_10t
+#                LD_PRELOAD=../lib/jemalloc/lib/libjemalloc.so numactl --interleave=all ./bin/bench_cbtree-concurrent-fair_64_paddings.alloc_new.reclaim_none.pool_none.out prefill $prefill secs $s presecs 0 x $x y $y cops $cops threads $threads >> results/cbtree_fair_64_10t
 
 
                 cops=1000
-                LD_PRELOAD=../lib/jemalloc/lib/libjemalloc.so numactl --interleave=all ./bin/bench_cbtree-concurrent.alloc_new.reclaim_none.pool_none.out prefill $prefill secs $s presecs 0 x $x y $y cops $cops threads $threads >> results/cbtree_1000
+#                LD_PRELOAD=../lib/jemalloc/lib/libjemalloc.so numactl --interleave=all ./bin/bench_cbtree-concurrent.alloc_new.reclaim_none.pool_none.out prefill $prefill secs $s presecs 0 x $x y $y cops $cops threads $threads >> results/cbtree_1000
+#                LD_PRELOAD=../lib/jemalloc/lib/libjemalloc.so numactl --interleave=all ./bin/bench_cbtree-concurrent_64_paddings.alloc_new.reclaim_none.pool_none.out prefill $prefill secs $s presecs 0 x $x y $y cops $cops threads $threads >> results/cbtree_64_1000
 #                numactl --interleave=all ./bin/bench_flexlist_locks.alloc_new.reclaim_none.pool_none.out prefill $prefill secs $s presecs 0 x $x y $y cops $cops threads $threads >> results/flexlist_1000
 
                 cops=100
-                LD_PRELOAD=../lib/jemalloc/lib/libjemalloc.so numactl --interleave=all ./bin/bench_cbtree-concurrent.alloc_new.reclaim_none.pool_none.out prefill $prefill secs $s presecs 0 x $x y $y cops $cops threads $threads >> results/cbtree_100
+#                LD_PRELOAD=../lib/jemalloc/lib/libjemalloc.so numactl --interleave=all ./bin/bench_cbtree-concurrent.alloc_new.reclaim_none.pool_none.out prefill $prefill secs $s presecs 0 x $x y $y cops $cops threads $threads >> results/cbtree_100
+#                LD_PRELOAD=../lib/jemalloc/lib/libjemalloc.so numactl --interleave=all ./bin/bench_cbtree-concurrent_64_paddings.alloc_new.reclaim_none.pool_none.out prefill $prefill secs $s presecs 0 x $x y $y cops $cops threads $threads >> results/cbtree_64_100
 
                 cops=10
-                LD_PRELOAD=../lib/jemalloc/lib/libjemalloc.so numactl --interleave=all ./bin/bench_cbtree-concurrent.alloc_new.reclaim_none.pool_none.out prefill $prefill secs $s presecs 0 x $x y $y cops $cops threads $threads >> results/cbtree_10
+#                LD_PRELOAD=../lib/jemalloc/lib/libjemalloc.so numactl --interleave=all ./bin/bench_cbtree-concurrent.alloc_new.reclaim_none.pool_none.out prefill $prefill secs $s presecs 0 x $x y $y cops $cops threads $threads >> results/cbtree_10
+#                LD_PRELOAD=../lib/jemalloc/lib/libjemalloc.so numactl --interleave=all ./bin/bench_cbtree-concurrent_64_paddings.alloc_new.reclaim_none.pool_none.out prefill $prefill secs $s presecs 0 x $x y $y cops $cops threads $threads >> results/cbtree_64_10
             done        
         done
     done

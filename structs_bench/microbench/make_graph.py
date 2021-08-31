@@ -18,8 +18,8 @@ labels = ["Skip-list",
           "CBTree $\\frac{1}{1000}$", "CBTree $\\frac{1}{100}$", "CBTree $\\frac{1}{10}$",
           "CBTree Fair $\\frac{1}{1000p}$", "CBTree Fair $\\frac{1}{100p}$", "CBTree Fair $\\frac{1}{100p}$"]
 
-prefix = "./01.05.2020-results_zipf/" #"./results_10s_10x_100_100_rebuttal/"
-filenames = ["flexlist_10t", "skiplist_locks", "cbtree_10", "cbtree_fair_10t"]
+prefix = "./results_10s_10M/" #"./01.05.2020-results/" #"./results_10s_10x_100_100_rebuttal/"
+filenames = ["flexlist_1000t", "skiplist_locks", "cbtree_1000", "cbtree_fair_1000t"]
 labels = ["Splay-list", "Skip-list", "CBTree Unfair", "CBTree Fair"]
 
 threads = [1, 2, 4, 8, 10, 20, 30, 40, 50, 60, 70]
@@ -123,6 +123,6 @@ for workload in workloads:
 #        print(filename + " " + str(yy[-1]))
     ax.legend()
     cnm = workload.split("/")
-    ax.set(xlabel='Number of processes', ylabel=r'$10^6$ operations per second')
+    ax.set(xlabel='Number of processes', ylabel=r'Millions of operations per second')
     fig.savefig("./workload" + cnm[0] + "_" + cnm[1] + ".pdf", bbox_inches='tight')
     plt.show()

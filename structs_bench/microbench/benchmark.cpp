@@ -14,7 +14,7 @@
 
 #define DS_ADAPTER_T ds_adapter<KEY_TYPE, VALUE_TYPE, RECLAIM<>, ALLOC<>, POOL<> >
 
-const int MAX_KEY = 20000000;
+const int MAX_KEY = 2000000000;
 const int STRESS_MAX_THREADS = 100;
 typedef long long ll;
 
@@ -248,18 +248,19 @@ int main(int argc, char **argv) {
         sum_ops += ops[i + 1];
     }
     cout.precision(10);
-    // std::cout << "parameters:\n";
-    // std::cout << "threads: " << num_threads << "\n";
-    // std::cout << "zipf: " << zipf << "\n";
-    // std::cout << "alpha: " << alpha << "\n";
-    // std::cout << "x: " << x << "\n";
-    // std::cout << "y: " << y << "\n";
-    // std::cout << "prefill: " << prefill << "\n";
-    // std::cout << "secs: " << seconds << "\n";
-    // std::cout << "upd ops: " << cops << "\n";
-    // std::cout << "ideal: " << ideal << "\n";
-    // std::cout << "results:\n";
-    // std::cout << "h: " << 0 /*(database->getHeight())*/ << ", ops: " << sum_ops << ", sumLengths: " << double(sum_lengths) / double(sum_ops) << "\n";
-    std::cout << double(sum_ops) / double(seconds) << " + ";
+    std::cout << "parameters:\n";
+    std::cout << "threads: " << num_threads << "\n";
+    std::cout << "zipf: " << zipf << "\n";
+    std::cout << "alpha: " << alpha << "\n";
+    std::cout << "x: " << x << "\n";
+    std::cout << "y: " << y << "\n";
+    std::cout << "prefill: " << prefill << "\n";
+    std::cout << "secs: " << seconds << "\n";
+    std::cout << "upd ops: " << cops << "\n";
+    std::cout << "ideal: " << ideal << "\n";
+    std::cout << "results:\n";
+    std::cout << "h: " << 0/*(database->getHeight())*/ << ", ops: " << sum_ops << ", sumLengths: " << double(sum_lengths) / double(sum_ops) << "\n";
+    std::cout << "\n";
+    // std::cout << double(sum_ops) / double(seconds) << " + ";
 }
 
